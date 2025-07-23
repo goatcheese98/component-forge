@@ -16,7 +16,9 @@
 
 /* Card Enhancement Styles */
 .card-tournament {
-  @apply card bg-base-200/80 backdrop-blur-md border border-base-content/10;
+  @apply card backdrop-blur-md border;
+  background-color: hsl(var(--b2) / 0.8);
+  border-color: hsl(var(--bc) / 0.1);
 }
 
 /* Badge Enhancement Styles */

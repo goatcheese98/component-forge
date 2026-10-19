@@ -27,7 +27,7 @@ The browser suite caught and verified the fix for Reset leaving preset selection
 
 ## Review and limits
 
-Reviewed all changed source for state ownership, input trust boundaries, text interpolation, storage failure, asynchronous clipboard feedback, export fidelity, component/event exports, mobile overflow, focus, motion and build separation. Native controls use per-instance Vue IDs. No application JavaScript migration is claimed: existing app/components were already Vue/TypeScript; this slice strengthens strict checking and removes permissive `any` utilities. Existing legacy Tailwind/PostCSS JavaScript configs are untouched. Dependencies and lockfile were not upgraded.
+Reviewed all changed source for state ownership, input trust boundaries, text interpolation, storage failure, asynchronous clipboard feedback, export fidelity, component/event exports, mobile overflow, focus, motion and build separation. Native controls use per-instance Vue IDs. Final review aligned real preview hover with the generated hover rule and retained reactive button-text props and ThemeSelector attribute forwarding. No application JavaScript migration is claimed: existing app/components were already Vue/TypeScript; this slice strengthens strict checking and removes permissive `any` utilities. Existing legacy Tailwind/PostCSS JavaScript configs are untouched. Dependencies and lockfile were not upgraded.
 
 CI now has a 15-minute read-only quality job using these commands, with browser artifacts retained seven days. Local cloud checks are complete; a hosted GitHub Actions run is separate evidence and is not claimed here.
 

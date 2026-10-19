@@ -93,6 +93,7 @@ async function copy(): Promise<void> {
 }
 watch(state, value => { selected.value = ''; copyStatus.value = ''; emit('state-changed', cloneState(value)) }, { deep: true, flush: 'sync' })
 watch(label, () => { selected.value = '' }, { flush: 'sync' })
+watch(() => props.buttonText, value => { label.value = value })
 watch(exportMode, () => { copyStatus.value = '' })
 onMounted(() => {
   try { const raw = localStorage.getItem('button-presets'); if (raw) customs.value = parsePresets(raw) }

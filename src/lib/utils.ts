@@ -11,7 +11,7 @@ export function generateCSSFromState(state: ButtonTestState): Record<string, str
   if (state.glow.enabled) shadows.push(`0 4px ${15 * state.glow.intensity / 100}px ${state.glow.color}`)
   if (state.shadow.enabled) shadows.push(`${state.shadow.x}px ${state.shadow.y}px ${state.shadow.blur}px ${state.shadow.spread}px ${state.shadow.color}`)
   return {
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: '44px', maxWidth: '100%',
+    boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: '44px', maxWidth: '100%',
     fontFamily: 'Geist, system-ui, sans-serif', lineHeight: '1.25', cursor: 'pointer',
     color: state.background.color === 'var(--acc)' ? 'var(--on-acc)' : '#ffffff',
     background: state.background.type === 'gradient' ? `linear-gradient(${directions[state.background.gradientDirection] ?? 'to right'}, ${state.background.gradientStart}, ${state.background.gradientEnd})` : state.background.color,

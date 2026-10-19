@@ -35,6 +35,7 @@ describe('export fidelity', () => {
     const styles = generateCSSFromState(config)
     expect(styles.background).toBe('linear-gradient(to right, #9933ff, #00d4ff)')
     expect(styles.width).toBe('180px')
+    expect(styles.boxSizing).toBe('border-box')
     expect(styles.boxShadow).toContain(', ')
     const code = generateCSSCode(config)
     expect(code).toContain('width: 180px;')

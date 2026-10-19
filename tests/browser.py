@@ -92,6 +92,9 @@ class BrowserChecks(unittest.TestCase):
     def test_keyboard_states_and_native_input(self):
         page = self.page
         button = page.locator('.custom-button')
+        button.hover()
+        self.assertEqual(button.evaluate('(el) => getComputedStyle(el).filter'), 'brightness(1.12)')
+        page.mouse.move(0, 0)
         for _ in range(20):
             page.keyboard.press('Tab')
             if button.evaluate('(el) => el === document.activeElement'):

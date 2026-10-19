@@ -15,10 +15,11 @@ All commands ran in the managed cloud workspace using Node 24.19.0. A fresh `npm
 | `npm ci --prefix work/frozen-install --cache /workspace/component-forge/work/npm-cache --no-audit --no-fund` | 0 | Frozen install; package/lock copied into ignored scratch directory |
 | `npm run typecheck` | 0 | Strict Vue/application, test and ESLint config types |
 | `npm run lint` | 0 | Read-only ESLint; Node 24 native TS config avoids upgrading jiti |
-| `npm test` | 0 | 9 focused tests: validated preset roundtrip, independent reset state, malformed/unsafe storage, deterministic full CSS, gradient/shadow/dimensions, clipboard promise/rejection |
+| `npm test` | 0 | 10 focused tests: validated preset roundtrip, independent reset state, malformed/unsafe storage, deterministic full CSS, gradient/shadow/dimensions, clipboard promise/rejection |
 | `npm run build` | 0 | Static app output in `dist-dev`, no declarations emitted into source |
 | `npm run check:lib` | 0 | Separate library build, declaration consumer without app aliases, ESM + CJS export loading |
-| `CHROMIUM_PATH=/usr/bin/chromium python3 tests/browser.py` | 0 | 5 real browser test groups against the built static app |
+| `CHROMIUM_PATH=/usr/bin/chromium python3 tests/browser.py` | 0 | 6 real browser test groups against the built static app |
+| `npm run check:packed` | 0 | Actual local tarball: strict package-name consumer, ESM and CommonJS; publish scripts disabled |
 | `git diff --check` | 0 | Whitespace check |
 
 Cloud browser: Chromium 154.0.8037.57, Playwright 1.62.0, headless. Browser HTTP requests were restricted by the test harness to its loopback preview; fonts were served with the app. Checks cover label edit → preview → clipboard → save → reload, duplicate replacement, deletion/undo, reset, native clipboard write/read, corrupt and denied storage, clipboard denial, required input submission, native disabled/loading, actual Tab/Enter/Space focus and activation, radio arrow keys, Escape/returned dialog focus, accessible labels, every control group, Tailwind access, light/dark, reduced motion, and no document overflow at 320/768/1440 widths. Storage and clipboard error paths were deliberately injected; a separate test used the real browser clipboard API.
@@ -32,3 +33,13 @@ Reviewed all changed source for state ownership, input trust boundaries, text in
 CI now has a 15-minute read-only quality job using these commands, with browser artifacts retained seven days. Local cloud checks are complete; a hosted GitHub Actions run is separate evidence and is not claimed here.
 
 Remaining limits: candidate v1 is not user-approved; original Paper PNG was not supplied; screenshot readback predates the stated leaf token correction. Only Chromium was exercised (no Safari/Firefox or screen-reader certification). Experimental palettes/effects remain opt-in and are not a claim of universal contrast for arbitrary user configurations. CSS includes required theme definitions; Tailwind export documents companion state/keyframe CSS. Browser tests use loopback storage/clipboard permission contexts, not a production origin. Browserslist emits an old-data advisory; no broad dependency refresh was performed. No provider integration, secret provisioning, package publication, merge or production deployment occurred.
+
+## Capacity-boundary regression follow-up
+
+At `9f5af1f9`, cloud Chromium reproduced the reviewer's sequence: 100 saved presets → delete Preset 0 → save New preset → Undo delete. The new regression failed because the final write appended Preset 0 to the already full collection. The read path would reject that 101-entry collection on reload.
+
+All writes now pass `serializePresets`, which invokes the same `parsePresets` validator used on load before touching storage or current presets. A single `MAX_PRESETS` constant defines capacity for reads, writes and Save. Blocked undo leaves storage byte-for-byte unchanged, retains the pending deletion and displays “100 presets saved. Delete another preset, then retry Undo delete.” Successful explicit deletions join an ordered pending-undo list, so freeing a slot does not replace the earlier pending undo. Undo restores the oldest pending deletion; pending undo is session-local.
+
+The full browser regression checks the unchanged 100-entry storage after blocked undo, then explicitly deletes another preset, restores the original pending preset, compares the complete resulting objects against the expected collection (including the newly saved preset), and reloads without a read error. A focused unit regression checks 100-entry serialization/parse roundtrip, rejection of a 101st entry and rejection of invalid configuration before writing. No truncation, automatic deletion or silent dropping of saved presets is used.
+
+Follow-up cloud checks: typecheck, read-only lint, 10 unit tests, static build, separate library/declaration checks, actual packed-tarball consumer and all 6 browser groups exited 0. The hosted quality job now also runs `check:packed`. The two hosted quality runs for the preceding head completed successfully; the follow-up head requires its own hosted results.

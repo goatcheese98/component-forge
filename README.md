@@ -12,9 +12,10 @@ npm run lint
 npm test
 npm run build
 npm run check:lib
+npm run check:packed
 ```
 
-`build` checks the application and writes a static site to `dist-dev/`. `build:lib` separately emits ESM (`dist/index.esm.js`), CommonJS (`dist/index.cjs`), `dist/style.css` and declarations rooted at `dist/index.d.ts`. `check:lib` also verifies both module formats and typechecks a consumer without application aliases. Nothing is published by these checks. Publishing remains a separate, unperformed operation.
+`build` checks the application and writes a static site to `dist-dev/`. `build:lib` separately emits ESM (`dist/index.esm.js`), CommonJS (`dist/index.cjs`), `dist/style.css` and declarations rooted at `dist/index.d.ts`. `check:lib` also verifies both module formats and typechecks a consumer without application aliases. `check:packed` additionally extracts an actual `npm pack --ignore-scripts` tarball and verifies package-name consumer declarations, ESM and CommonJS. Nothing is published by these checks. Publishing remains a separate, unperformed operation.
 
 Real browser checks against the built static site:
 

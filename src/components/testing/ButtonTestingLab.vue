@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch, useId } from 'vue'
 import type { ButtonTestState, ComponentPreset } from '../../lib/types'
 import { copyToClipboard, generateCSSCode, generateCSSFromState, generateTailwindClasses } from '../../lib/utils'
-import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets } from '../../lib/button-state'
+import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets, serializePresets, MAX_PRESETS } from '../../lib/button-state'
 import EffectsTab from './tabs/EffectsTab.vue'
 import TransformTab from './tabs/TransformTab.vue'
 import StyleTab from './tabs/StyleTab.vue'
@@ -31,7 +31,7 @@ const saveTrigger = ref<HTMLButtonElement>()
 const name = ref('')
 const saveError = ref('')
 const duplicate = computed(() => customs.value.find(p => p.name.toLowerCase() === name.value.trim().toLowerCase()))
-const deleting = ref<ComponentPreset>()
+const deleting = ref<ComponentPreset[]>([])
 const canSave = computed(() => name.value.trim().length >= 1 && name.value.trim().length <= 40)
 
 function load(preset: ComponentPreset): void {
@@ -49,8 +49,16 @@ function reset(): void {
   notice.value = 'Reset to LUM / Neutral.'
 }
 function persist(next: ComponentPreset[]): boolean {
+  let raw: string
+  try { raw = serializePresets(next) }
+  catch {
+    notice.value = next.length > MAX_PRESETS
+      ? '100 presets saved. Delete another preset, then retry Undo delete.'
+      : 'Preset changes could not be validated. Nothing was saved; check your configuration and retry.'
+    return false
+  }
   try {
-    localStorage.setItem('button-presets', JSON.stringify(next))
+    localStorage.setItem('button-presets', raw)
     customs.value = next
     return true
   } catch {
@@ -61,24 +69,26 @@ function persist(next: ComponentPreset[]): boolean {
 function save(replace = false): void {
   if (!canSave.value) { saveError.value = 'Use 1–40 characters after trimming.'; return }
   if (duplicate.value && !replace) { saveError.value = 'Name already exists. Replace it or choose a new name.'; return }
-  if (!replace && customs.value.length >= 100) { saveError.value = '100 presets saved. Delete one before adding another.'; return }
+  if (!replace && customs.value.length >= MAX_PRESETS) { saveError.value = '100 presets saved. Delete one before adding another.'; return }
   const preset: ComponentPreset = { id: replace && duplicate.value ? duplicate.value.id : `custom-${crypto.randomUUID()}`, name: name.value.trim(), description: 'Custom user-created preset', label: label.value, config: cloneState(state.value) }
   const next = replace ? customs.value.map(p => p.id === preset.id ? preset : p) : [...customs.value, preset]
   if (persist(next)) {
     selected.value = preset.id
     notice.value = `Saved ${preset.name}.`
     dialog.value?.close()
-  } else saveError.value = 'Storage unavailable. Preset was not saved; retry or cancel.'
+  } else saveError.value = notice.value + ' Preset was not saved; retry or cancel.'
 }
 function remove(preset: ComponentPreset): void {
-  deleting.value = preset
-  if (persist(customs.value.filter(p => p.id !== preset.id))) notice.value = `Deleted ${preset.name}. Undo is available.`
-  else deleting.value = undefined
+  if (persist(customs.value.filter(p => p.id !== preset.id))) {
+    deleting.value.push(preset)
+    notice.value = `Deleted ${preset.name}. Undo next restores ${deleting.value[0]!.name}.`
+  }
 }
 function undo(): void {
-  if (deleting.value && persist([...customs.value, deleting.value])) {
-    deleting.value = undefined
-    notice.value = 'Preset restored.'
+  const pending = deleting.value[0]
+  if (pending && persist([...customs.value, pending])) {
+    deleting.value.shift()
+    notice.value = `Restored ${pending.name}.` + (deleting.value.length ? ` Undo next restores ${deleting.value[0]!.name}.` : '')
   }
 }
 function openSave(): void { name.value = ''; saveError.value = ''; dialog.value?.showModal() }
@@ -130,7 +140,7 @@ onMounted(() => {
       </div>
     </div>
     <p v-else class="empty-presets">No custom presets yet. Start with LUM / Neutral, then save your changes.</p>
-    <p role="status" class="notice">{{ notice }} <button v-if="deleting" @click="undo">Undo delete</button></p>
+    <p role="status" class="notice">{{ notice }} <button v-if="deleting.length" @click="undo">Undo delete</button></p>
     <div class="lab-grid">
       <section class="preview-section" aria-label="Button preview">
         <div class="preview">

@@ -29,7 +29,8 @@
     "lint": "node --experimental-strip-types node_modules/eslint/bin/eslint.js --flag unstable_native_nodejs_ts_config .",
     "typecheck": "vue-tsc --noEmit",
     "prepublishOnly": "npm run build:lib",
-    "check:lib": "npm run build:lib && tsc -p tests/consumer/tsconfig.json && node tests/verify-library.ts"
+    "check:lib": "npm run build:lib && tsc -p tests/consumer/tsconfig.json && node tests/verify-library.ts",
+    "check:packed": "npm run check:lib && node tests/verify-packed.ts"
   },
   "peerDependencies": {
     "vue": "^3.5.0",

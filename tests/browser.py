@@ -83,6 +83,41 @@ class BrowserChecks(unittest.TestCase):
         expect(page.get_by_label('Button label', exact=True)).to_have_value('Save changes')
         expect(page.get_by_role('button', name='LUM / Neutral')).to_have_attribute('aria-pressed', 'true')
 
+    def test_undo_at_capacity_preserves_saved_collection_and_can_retry(self):
+        page = self.page
+        page.get_by_role('button', name='Save preset', exact=True).click()
+        page.get_by_label('Preset name').fill('Seed')
+        page.get_by_role('button', name='Save', exact=True).click()
+        page.evaluate("""() => {
+            const seed = JSON.parse(localStorage.getItem('button-presets'))[0];
+            localStorage.setItem('button-presets', JSON.stringify(Array.from({length:100}, (_, i) => ({...seed, id:`custom-${i}`, name:`Preset ${i}`}))));
+        }""")
+        page.reload()
+        original = page.evaluate("JSON.parse(localStorage.getItem('button-presets'))[0]")
+        page.get_by_role('button', name='Delete preset Preset 0', exact=True).click()
+        page.get_by_role('button', name='Save preset', exact=True).click()
+        page.get_by_label('Preset name').fill('New preset')
+        page.get_by_role('button', name='Save', exact=True).click()
+        before = page.evaluate("localStorage.getItem('button-presets')")
+        self.assertEqual(len(json.loads(before)), 100)
+        page.get_by_role('button', name='Undo delete', exact=True).click()
+        self.assertEqual(page.evaluate("localStorage.getItem('button-presets')"), before)
+        expect(page.get_by_text('100 presets saved. Delete another preset, then retry Undo delete.')).to_be_visible()
+        expect(page.get_by_role('button', name='Undo delete', exact=True)).to_be_enabled()
+        page.get_by_role('button', name='Delete preset Preset 1', exact=True).click()
+        page.get_by_role('button', name='Undo delete', exact=True).click()
+        restored = json.loads(page.evaluate("localStorage.getItem('button-presets')"))
+        self.assertEqual(len(restored), 100)
+        expected = [preset for preset in json.loads(before) if preset['id'] != 'custom-1'] + [original]
+        self.assertEqual(restored, expected)
+        self.assertIn('custom-0', [p['id'] for p in restored])
+        self.assertNotIn('custom-1', [p['id'] for p in restored])
+        self.assertIn('New preset', [p['name'] for p in restored])
+        page.reload()
+        expect(page.get_by_role('button', name='Preset 0', exact=True)).to_be_visible()
+        expect(page.get_by_role('button', name='New preset', exact=True)).to_be_visible()
+        self.assertEqual(page.get_by_text('Saved presets could not be read.', exact=False).count(), 0)
+
     def test_native_clipboard(self):
         self.context.grant_permissions(['clipboard-read', 'clipboard-write'], origin='http://127.0.0.1:5175')
         self.page.get_by_role('button', name='Copy CSS', exact=True).click()
@@ -136,7 +171,7 @@ class BrowserChecks(unittest.TestCase):
         page.get_by_role('button', name='Save preset', exact=True).click()
         page.get_by_label('Preset name').fill('Unsaved')
         page.get_by_role('button', name='Save', exact=True).click()
-        expect(page.get_by_text('Storage unavailable. Preset was not saved;', exact=False)).to_be_visible()
+        expect(page.get_by_text('Preset was not saved;', exact=False)).to_be_visible()
         expect(page.get_by_role('dialog')).to_be_visible()
         page.get_by_role('button', name='Cancel', exact=True).click()
         self.assertEqual(page.get_by_role('button', name='Unsaved', exact=True).count(), 0)

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets } from '../src/lib/button-state'
+import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets, serializePresets, MAX_PRESETS } from '../src/lib/button-state'
 import { copyToClipboard, generateCSSCode, generateCSSFromState, generateTailwindClasses } from '../src/lib/utils'
 
 describe('configuration and persistence boundary', () => {
@@ -11,6 +11,14 @@ describe('configuration and persistence boundary', () => {
     expect(initialButtonState().border.radius).toBe(8)
     expect(initialButtonState({ border: changed.border }).border.radius).toBe(40)
     expect(defaultButtonState.border.radius).toBe(8)
+  })
+  it('uses the read boundary for writes at capacity, rejecting overflow and invalid configs', () => {
+    const collection = Array.from({ length: MAX_PRESETS }, (_, i) => ({ id: `custom-${i}`, name: `Preset ${i}`, description: 'Custom', config: cloneState(defaultButtonState) }))
+    expect(parsePresets(serializePresets(collection))).toEqual(collection)
+    expect(() => serializePresets([...collection, { ...collection[0]!, id: 'custom-extra' }])).toThrow()
+    const invalid = [{ ...collection[0]!, config: { ...defaultButtonState, border: { ...defaultButtonState.border, radius: -1 } } }]
+    expect(() => serializePresets(invalid)).toThrow()
+    expect(collection).toHaveLength(MAX_PRESETS)
   })
   it.each(['{', '{}', '[{}]', JSON.stringify([{ id:'neutral' }]), 'x'.repeat(200001)])('rejects malformed storage', raw => {
     expect(() => parsePresets(raw)).toThrow()

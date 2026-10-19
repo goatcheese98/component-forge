@@ -107,10 +107,12 @@ export function isButtonState(value: unknown): value is ButtonTestState {
     state.backdrop.blur >= 0 && state.backdrop.blur <= 100
 
 }
+export const MAX_PRESETS = 100
+
 export function parsePresets(raw: string): ComponentPreset[] {
   if (raw.length > 200000) throw new Error('Preset storage is too large')
   const value: unknown = JSON.parse(raw)
-  if (!Array.isArray(value) || value.length > 100) throw new Error('Invalid preset list')
+  if (!Array.isArray(value) || value.length > MAX_PRESETS) throw new Error('Invalid preset list')
   const seen = new Set<string>()
   for (const item of value) {
     if (!item || typeof item !== 'object') throw new Error('Invalid preset')
@@ -126,4 +128,11 @@ export function parsePresets(raw: string): ComponentPreset[] {
 export function initialButtonState(partial?: Partial<ButtonTestState>): ButtonTestState {
   const merged = { ...cloneState(defaultButtonState), ...partial }
   return isButtonState(merged) ? cloneState(merged) : cloneState(defaultButtonState)
+}
+
+// Every write must be readable by the same bounded parser used on reload.
+export function serializePresets(value: ComponentPreset[]): string {
+  const raw = JSON.stringify(value)
+  parsePresets(raw)
+  return raw
 }

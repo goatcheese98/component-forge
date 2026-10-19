@@ -1,0 +1,61 @@
+import { describe, expect, it, vi } from 'vitest'
+import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets } from '../src/lib/button-state'
+import { copyToClipboard, generateCSSCode, generateCSSFromState, generateTailwindClasses } from '../src/lib/utils'
+
+describe('configuration and persistence boundary', () => {
+  it('roundtrips every built-in without sharing reset state', () => {
+    const custom = presets.map((p, i) => ({ ...p, id: `custom-${i}`, label: '<img onerror=alert(1)>' }))
+    expect(parsePresets(JSON.stringify(custom))).toEqual(custom)
+    const changed = cloneState(defaultButtonState)
+    changed.border.radius = 40
+    expect(initialButtonState().border.radius).toBe(8)
+    expect(initialButtonState({ border: changed.border }).border.radius).toBe(40)
+    expect(defaultButtonState.border.radius).toBe(8)
+  })
+  it.each(['{', '{}', '[{}]', JSON.stringify([{ id:'neutral' }]), 'x'.repeat(200001)])('rejects malformed storage', raw => {
+    expect(() => parsePresets(raw)).toThrow()
+  })
+  it('rejects CSS injection and nonfinite/out-of-bounds numbers', () => {
+    const config = cloneState(defaultButtonState)
+    const raw = () => JSON.stringify([{ id:'custom-1', name:'Unsafe', description:'Test', config }])
+    config.background.color = 'red; } body { display: none'
+    expect(() => parsePresets(raw())).toThrow()
+    config.background.color = 'url(https://example.com)'
+    expect(() => parsePresets(raw())).toThrow()
+    config.background.color = '#ffffff'
+    config.border.radius = -1
+    expect(() => parsePresets(raw())).toThrow()
+    expect(initialButtonState({ transform: { ...config.transform, scale: Infinity } })).toEqual(defaultButtonState)
+  })
+})
+describe('export fidelity', () => {
+  it('includes dimensions, valid gradient directions, both shadows, tokens and reduced motion', () => {
+    const config = cloneState(presets.find(p => p.id === 'cyberpunk')!.config)
+    config.size.width = '180px'
+    const styles = generateCSSFromState(config)
+    expect(styles.background).toBe('linear-gradient(to right, #9933ff, #00d4ff)')
+    expect(styles.width).toBe('180px')
+    expect(styles.boxShadow).toContain(', ')
+    const code = generateCSSCode(config)
+    expect(code).toContain('width: 180px;')
+    expect(code).toContain('prefers-reduced-motion')
+    expect(code).toContain('@keyframes glow-pulse')
+    expect(generateCSSCode(defaultButtonState)).toContain('--on-acc: #141210')
+    expect(generateCSSCode(defaultButtonState)).toBe(generateCSSCode(initialButtonState()))
+    expect(generateTailwindClasses(config)).toContain('[width:180px]')
+  })
+  it('reports clipboard rejection and does not resolve before the write completes', async () => {
+    let resolveWrite!: () => void
+    vi.stubGlobal('navigator', { clipboard: { writeText: vi.fn(() => new Promise<void>(resolve => { resolveWrite = resolve })) } })
+    let complete = false
+    const pending = copyToClipboard('code').then(() => { complete = true })
+    await Promise.resolve()
+    expect(complete).toBe(false)
+    resolveWrite()
+    await pending
+    expect(complete).toBe(true)
+    vi.stubGlobal('navigator', { clipboard: { writeText: vi.fn().mockRejectedValue(new Error('denied')) } })
+    await expect(copyToClipboard('code')).rejects.toThrow('denied')
+    vi.unstubAllGlobals()
+  })
+})

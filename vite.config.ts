@@ -22,7 +22,9 @@ export default defineConfig(({ mode }) => {
       lib: {
         entry: resolve(__dirname, 'src/index.ts'),
         name: 'ComponentForge',
-        fileName: (format) => `index.${format === 'es' ? 'esm' : format}.js`
+        formats: ['es', 'cjs'],
+        cssFileName: 'style',
+        fileName: (format) => format === 'es' ? 'index.esm.js' : 'index.cjs'
       },
       rollupOptions: {
         external: ['vue', 'tailwindcss'],

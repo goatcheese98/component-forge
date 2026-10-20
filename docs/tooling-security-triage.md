@@ -761,4 +761,3 @@ Neither remaining advisory needs a credential, paid service, merge or production
 **Execution path and actual exposure:** npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.
 
 </details>
-

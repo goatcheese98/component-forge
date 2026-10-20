@@ -63,6 +63,7 @@ export interface ComponentPreset {
   id: string
   name: string
   description: string
+  label?: string
   config: ButtonTestState
 }
 

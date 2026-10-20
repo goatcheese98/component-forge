@@ -1,0 +1,59 @@
+# Scoped verification · October 19, 2026
+
+Repository: `goatcheese98/component-forge`. Restored source and current default branch both started at `d6636bca9ebe8f8bb4d6d4ccb7328586743048d3`, clean. Work branch: `codex/lum-component-gallery`. Other repository checkouts were not changed. Setup helpers and source SHA were verified; source implementation supersedes baseline-only onboarding limits as authorized in the brief.
+
+## Reproduced baseline
+
+With the restored locked dependencies: `npm run build` exited **2** and `npm run typecheck` exited **2** (import/local `generateCSSCode` collision); read-only `npm exec eslint .` exited **2** (missing ESLint 9 flat config); `npm test -- --run` exited **1** (no tests). Before dependencies were linked, commands exited 127; those are setup results, not application defects. The original lint script contained `--fix` and was not run. A later consumer fixture reproduced exit **2** because emitted declarations referenced the application's `@/lib/types` alias; relative source imports fixed it.
+
+## Final checks
+
+All commands ran in the managed cloud workspace using Node 24.19.0. A fresh `npm ci` completed from the unchanged lockfile (326 packages); checks below used that fresh installation.
+
+| Command | Exit | Result |
+| --- | --- | --- |
+| `npm ci --prefix work/frozen-install --cache /workspace/component-forge/work/npm-cache --no-audit --no-fund` | 0 | Frozen install; package/lock copied into ignored scratch directory |
+| `npm run typecheck` | 0 | Strict Vue/application, test and ESLint config types |
+| `npm run lint` | 0 | Read-only ESLint; Node 24 native TS config avoids upgrading jiti |
+| `npm test` | 0 | 10 focused tests: validated preset roundtrip, independent reset state, malformed/unsafe storage, deterministic full CSS, gradient/shadow/dimensions, clipboard promise/rejection |
+| `npm run build` | 0 | Static app output in `dist-dev`, no declarations emitted into source |
+| `npm run check:lib` | 0 | Separate library build, declaration consumer without app aliases, ESM + CJS export loading |
+| `CHROMIUM_PATH=/usr/bin/chromium python3 tests/browser.py` | 0 | 6 real browser test groups against the built static app |
+| `npm run check:packed` | 0 | Actual local tarball: strict package-name consumer, ESM and CommonJS; publish scripts disabled |
+| `git diff --check` | 0 | Whitespace check |
+
+Cloud browser: Chromium 154.0.8037.57, Playwright 1.62.0, headless. Browser HTTP requests were restricted by the test harness to its loopback preview; fonts were served with the app. Checks cover label edit → preview → clipboard → save → reload, duplicate replacement, deletion/undo, reset, native clipboard write/read, corrupt and denied storage, clipboard denial, required input submission, native disabled/loading, actual Tab/Enter/Space focus and activation, radio arrow keys, Escape/returned dialog focus, accessible labels, every control group, Tailwind access, light/dark, reduced motion, and no document overflow at 320/768/1440 widths. Storage and clipboard error paths were deliberately injected; a separate test used the real browser clipboard API.
+
+The browser suite caught and verified the fix for Reset leaving preset selection stale after a queued label watcher. Consumer checks caught and verified the declaration alias leak. Screenshots are supporting visual evidence, not the functional test result.
+
+## Review and limits
+
+Reviewed all changed source for state ownership, input trust boundaries, text interpolation, storage failure, asynchronous clipboard feedback, export fidelity, component/event exports, mobile overflow, focus, motion and build separation. Native controls use per-instance Vue IDs. Final review aligned real preview hover with the generated hover rule and retained reactive button-text props and ThemeSelector attribute forwarding. No application JavaScript migration is claimed: existing app/components were already Vue/TypeScript; this slice strengthens strict checking and removes permissive `any` utilities. Existing legacy Tailwind/PostCSS JavaScript configs are untouched. Dependencies and lockfile were not upgraded.
+
+CI now has a 15-minute read-only quality job using these commands, with browser artifacts retained seven days. Local cloud checks are complete; a hosted GitHub Actions run is separate evidence and is not claimed here.
+
+Remaining limits: candidate v1 is not user-approved; original Paper PNG was not supplied; screenshot readback predates the stated leaf token correction. Only Chromium was exercised (no Safari/Firefox or screen-reader certification). Experimental palettes/effects remain opt-in and are not a claim of universal contrast for arbitrary user configurations. CSS includes required theme definitions; Tailwind export documents companion state/keyframe CSS. Browser tests use loopback storage/clipboard permission contexts, not a production origin. Browserslist emits an old-data advisory; no broad dependency refresh was performed. No provider integration, secret provisioning, package publication, merge or production deployment occurred.
+
+## Capacity-boundary regression follow-up
+
+At `9f5af1f9`, cloud Chromium reproduced the reviewer's sequence: 100 saved presets → delete Preset 0 → save New preset → Undo delete. The new regression failed because the final write appended Preset 0 to the already full collection. The read path would reject that 101-entry collection on reload.
+
+All writes now pass `serializePresets`, which invokes the same `parsePresets` validator used on load before touching storage or current presets. A single `MAX_PRESETS` constant defines capacity for reads, writes and Save. Blocked undo leaves storage byte-for-byte unchanged, retains the pending deletion and displays “100 presets saved. Delete another preset, then retry Undo delete.” Successful explicit deletions join an ordered pending-undo list, so freeing a slot does not replace the earlier pending undo. Undo restores the oldest pending deletion; pending undo is session-local.
+
+The full browser regression checks the unchanged 100-entry storage after blocked undo, then explicitly deletes another preset, restores the original pending preset, compares the complete resulting objects against the expected collection (including the newly saved preset), and reloads without a read error. A focused unit regression checks 100-entry serialization/parse roundtrip, rejection of a 101st entry and rejection of invalid configuration before writing. No truncation, automatic deletion or silent dropping of saved presets is used.
+
+Follow-up cloud checks: typecheck, read-only lint, 10 unit tests, static build, separate library/declaration checks, actual packed-tarball consumer and all 6 browser groups exited 0. The hosted quality job now also runs `check:packed`. The two hosted quality runs for the preceding head completed successfully; the follow-up head requires its own hosted results.
+
+## Public package and persistence hardening checkpoint
+
+Starting remote head `88c398ba7d5a852dfda0e555a71c78d0abd6ba8d` was clean and matched the cloud checkout. No repository AGENTS.md was present. Existing typecheck, static build and actual packed consumer were rerun successfully; the 100-preset/Undo regression remains in the browser suite.
+
+Seven newly added cases reproduced failures before implementation: direct public exporters accepted CSS rule injection, and persistence accepted malformed hex/RGB/easing values. The public exporters now call a shared runtime parser before generating output. Named public parsers accept untrusted input and return typed data; configuration copying selects known fields without invoking custom `toJSON`. Numeric CSS constraints, exact hex lengths, RGB/HSL channels/alpha and Bézier shape/ranges are validated consistently. Tests also cover inherited-only fields, malformed objects, independent copies, and valid color syntax.
+
+After the compatible Vue security refresh and clean frozen install, typecheck, lint, 21 unit cases, static build, packed library/consumer tests and 7 cloud Chromium behavior groups pass. Packed tests exercise the real package-name exports, malformed-data rejection and Vue SSR label escaping. The new browser case proves malformed stored CSS leaves the lab usable without overwriting the original storage; the capacity/Undo sequence still passes. See [boundary and dependency evidence](boundary-hardening.md) for the audit classification and before/after inventory. This is a further scoped checkpoint, not a full-repository migration or a claim that all tooling debt is resolved.
+
+## Full tooling advisory follow-up
+
+The intermediate 55-record full audit was triaged by individual advisory and exact dependency path, not dismissed as development-only. Compatible patch/minor repairs, removal of the unused ESLint Prettier preset, and the narrowly verified Vitest/UI 4.1.11 migration address reachable critical/server/build cases. Node 24 and Vite 7 remain supported; assertions and quality checks were not weakened. A clean root npm ci and npm ls --all verify a valid frozen dependency graph. Final full audit: 9 records (6 high, 3 moderate, no critical); full audit exit 1 remains explicit. The two remaining distinct advisories require an unavailable braces backport or parent-stack/parser-major work. [Every advisory, exact chains, exposure, fixed versions, mitigations and smallest repair plan](tooling-security-triage.md). Cloud Vite dev and Vitest UI HTTP probes pass in addition to 21 unit cases, seven application browser groups and packed/SSR consumers.
+
+Final import review reproduced a clone-time RangeError from a valid preset with 10,000 levels of unknown extra configuration data (still below the raw storage size cap). parsePresets now returns normalized known-field DTOs before the lab clones or exports them, preserving id/name/description/label and leaving original storage untouched. A unit reproduction and complete browser import→reload→select regression pass. The final totals are 22 unit cases and eight browser groups.

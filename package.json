@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A comprehensive Tailwind CSS and DaisyUI component design system with testing laboratory",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,31 +15,32 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.cjs"
     },
     "./css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
-    "build:lib": "vite build --mode lib",
+    "build": "npm run typecheck && vite build",
+    "build:lib": "vite build --mode lib && vue-tsc -p tsconfig.lib.json",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "lint": "eslint . --ext .vue,.js,.ts,.tsx --fix",
+    "test": "vitest run",
+    "test:ui": "vitest --ui --api.host=127.0.0.1",
+    "lint": "node --experimental-strip-types node_modules/eslint/bin/eslint.js --flag unstable_native_nodejs_ts_config .",
     "typecheck": "vue-tsc --noEmit",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly": "npm run build:lib",
+    "check:lib": "npm run build:lib && tsc -p tests/consumer/tsconfig.json && node tests/verify-library.ts",
+    "check:packed": "npm run check:lib && node tests/verify-packed.ts"
   },
   "peerDependencies": {
-    "vue": "^3.5.0",
-    "tailwindcss": "^3.4.0"
+    "tailwindcss": "^3.4.0",
+    "vue": "^3.5.42"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^24.1.0",
     "@vitejs/plugin-vue": "^6.0.0",
-    "@vitest/ui": "^3.2.4",
-    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vitest/ui": "^4.1.11",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
@@ -50,13 +51,10 @@
     "prettier": "^3.6.2",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
-    "vite": "^7.0.5",
-    "vitest": "^3.2.4",
-    "vue": "^3.5.17",
+    "vite": "^7.3.7",
+    "vitest": "^4.1.11",
+    "vue": "^3.5.42",
     "vue-tsc": "^3.0.3"
-  },
-  "dependencies": {
-    "gsap": "^3.13.0"
   },
   "keywords": [
     "vue3",
@@ -71,6 +69,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/component-forge.git"
+    "url": "https://github.com/goatcheese98/component-forge.git"
   }
 }

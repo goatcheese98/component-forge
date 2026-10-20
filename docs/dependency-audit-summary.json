@@ -1,0 +1,277 @@
+{
+  "before_head": "88c398ba7d5a852dfda0e555a71c78d0abd6ba8d",
+  "commands": {
+    "runtime": "npm audit --omit=dev --json",
+    "full": "npm audit --json"
+  },
+  "runtime_before": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "runtime_after": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "full_before": {
+    "info": 0,
+    "low": 1,
+    "moderate": 17,
+    "high": 46,
+    "critical": 3,
+    "total": 67
+  },
+  "full_after": {
+    "info": 0,
+    "low": 3,
+    "moderate": 15,
+    "high": 34,
+    "critical": 3,
+    "total": 55
+  },
+  "resolved_names": [
+    "@vue/compiler-core",
+    "@vue/compiler-dom",
+    "@vue/compiler-sfc",
+    "@vue/compiler-ssr",
+    "@vue/server-renderer",
+    "@vue/tsconfig",
+    "nanoid",
+    "postcss",
+    "postcss-import",
+    "postcss-js",
+    "source-map-js",
+    "vue"
+  ],
+  "remaining_findings": [
+    {
+      "name": "@eslint-community/eslint-utils",
+      "severity": "high"
+    },
+    {
+      "name": "@eslint/config-array",
+      "severity": "high"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "severity": "high"
+    },
+    {
+      "name": "@humanfs/node",
+      "severity": "moderate"
+    },
+    {
+      "name": "@tailwindcss/typography",
+      "severity": "moderate"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "severity": "high"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "severity": "high"
+    },
+    {
+      "name": "@typescript-eslint/type-utils",
+      "severity": "high"
+    },
+    {
+      "name": "@typescript-eslint/typescript-estree",
+      "severity": "high"
+    },
+    {
+      "name": "@typescript-eslint/utils",
+      "severity": "high"
+    },
+    {
+      "name": "@vitejs/plugin-vue",
+      "severity": "low"
+    },
+    {
+      "name": "@vitest/mocker",
+      "severity": "moderate"
+    },
+    {
+      "name": "@vitest/ui",
+      "severity": "critical"
+    },
+    {
+      "name": "@vue/eslint-config-prettier",
+      "severity": "high"
+    },
+    {
+      "name": "@vue/eslint-config-typescript",
+      "severity": "high"
+    },
+    {
+      "name": "@vue/language-core",
+      "severity": "moderate"
+    },
+    {
+      "name": "ajv",
+      "severity": "moderate"
+    },
+    {
+      "name": "anymatch",
+      "severity": "moderate"
+    },
+    {
+      "name": "autoprefixer",
+      "severity": "high"
+    },
+    {
+      "name": "brace-expansion",
+      "severity": "high"
+    },
+    {
+      "name": "braces",
+      "severity": "high"
+    },
+    {
+      "name": "browserslist",
+      "severity": "high"
+    },
+    {
+      "name": "chokidar",
+      "severity": "high"
+    },
+    {
+      "name": "eslint",
+      "severity": "high"
+    },
+    {
+      "name": "eslint-config-prettier",
+      "severity": "high"
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "severity": "high"
+    },
+    {
+      "name": "eslint-plugin-vue",
+      "severity": "high"
+    },
+    {
+      "name": "fast-glob",
+      "severity": "moderate"
+    },
+    {
+      "name": "fdir",
+      "severity": "moderate"
+    },
+    {
+      "name": "fflate",
+      "severity": "moderate"
+    },
+    {
+      "name": "file-entry-cache",
+      "severity": "high"
+    },
+    {
+      "name": "flat-cache",
+      "severity": "high"
+    },
+    {
+      "name": "flatted",
+      "severity": "high"
+    },
+    {
+      "name": "glob",
+      "severity": "high"
+    },
+    {
+      "name": "js-yaml",
+      "severity": "high"
+    },
+    {
+      "name": "micromatch",
+      "severity": "high"
+    },
+    {
+      "name": "minimatch",
+      "severity": "high"
+    },
+    {
+      "name": "picomatch",
+      "severity": "high"
+    },
+    {
+      "name": "postcss-load-config",
+      "severity": "moderate"
+    },
+    {
+      "name": "postcss-nested",
+      "severity": "low"
+    },
+    {
+      "name": "postcss-selector-parser",
+      "severity": "moderate"
+    },
+    {
+      "name": "readdirp",
+      "severity": "moderate"
+    },
+    {
+      "name": "rollup",
+      "severity": "high"
+    },
+    {
+      "name": "sucrase",
+      "severity": "high"
+    },
+    {
+      "name": "tailwindcss",
+      "severity": "high"
+    },
+    {
+      "name": "tinyglobby",
+      "severity": "moderate"
+    },
+    {
+      "name": "tinypool",
+      "severity": "critical"
+    },
+    {
+      "name": "typescript-eslint",
+      "severity": "high"
+    },
+    {
+      "name": "update-browserslist-db",
+      "severity": "high"
+    },
+    {
+      "name": "vite",
+      "severity": "high"
+    },
+    {
+      "name": "vite-node",
+      "severity": "low"
+    },
+    {
+      "name": "vitest",
+      "severity": "critical"
+    },
+    {
+      "name": "vue-eslint-parser",
+      "severity": "high"
+    },
+    {
+      "name": "vue-tsc",
+      "severity": "moderate"
+    },
+    {
+      "name": "yaml",
+      "severity": "moderate"
+    }
+  ],
+  "checkpoint": "Intermediate Vue/public-boundary stage, before full tooling follow-up",
+  "current_tooling_report": "security/full-audit-final.json"
+}

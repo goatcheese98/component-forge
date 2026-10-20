@@ -118,6 +118,27 @@ class BrowserChecks(unittest.TestCase):
         expect(page.get_by_role('button', name='New preset', exact=True)).to_be_visible()
         self.assertEqual(page.get_by_text('Saved presets could not be read.', exact=False).count(), 0)
 
+    def test_malformed_persisted_css_recovers_without_overwriting_storage(self):
+        page = self.page
+        page.get_by_role('button', name='Save preset', exact=True).click()
+        page.get_by_label('Preset name').fill('Seed')
+        page.get_by_role('button', name='Save', exact=True).click()
+        raw = page.evaluate("""() => {
+            const presets = JSON.parse(localStorage.getItem('button-presets'));
+            presets[0].config.background.color = '#12345';
+            localStorage.setItem('button-presets', JSON.stringify(presets));
+            return localStorage.getItem('button-presets');
+        }""")
+        page.reload()
+        expect(page.get_by_text('Saved presets could not be read.', exact=False)).to_be_visible()
+        expect(page.locator('.custom-button')).to_be_enabled()
+        self.assertEqual(page.evaluate("localStorage.getItem('button-presets')"), raw)
+        page.get_by_label('Button label', exact=True).fill('Still usable')
+        expect(page.locator('.custom-button')).to_have_text('Still usable')
+        expect(page.get_by_label('Generated code')).to_contain_text('background: var(--acc)')
+        expect(page.get_by_label('Generated code')).not_to_contain_text('#12345')
+        page.screenshot(path=str(ARTIFACTS / 'malformed-preset-recovery.png'), full_page=True)
+
     def test_native_clipboard(self):
         self.context.grant_permissions(['clipboard-read', 'clipboard-write'], origin='http://127.0.0.1:5175')
         self.page.get_by_role('button', name='Copy CSS', exact=True).click()

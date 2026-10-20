@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets, serializePresets, MAX_PRESETS } from '../src/lib/button-state'
+import { cloneState, defaultButtonState, initialButtonState, parsePresets, presets, serializePresets, MAX_PRESETS, parseButtonState } from '../src/lib/button-state'
 import { copyToClipboard, generateCSSCode, generateCSSFromState, generateTailwindClasses } from '../src/lib/utils'
 
 describe('configuration and persistence boundary', () => {
@@ -67,4 +67,58 @@ describe('export fidelity', () => {
     await expect(copyToClipboard('code')).rejects.toThrow('denied')
     vi.unstubAllGlobals()
   })
+})
+
+describe('public export trust boundary', () => {
+  it.each([generateCSSFromState, generateCSSCode, generateTailwindClasses])('rejects CSS rule injection before generating output', exporter => {
+    const injected = cloneState(defaultButtonState)
+    injected.background.color = 'red; } body { display: none; /*'
+    expect(() => exporter(injected)).toThrow('Invalid button configuration')
+  })
+  it.each(['#12345', 'rgb(,,,,)', 'rgba(1,2,3,8)', 'rgb(10%,20,30)'])('rejects malformed persisted CSS values', color => {
+    const config = cloneState(defaultButtonState)
+    config.background.color = color
+    expect(() => serializePresets([{ id:'custom-invalid', name:'Invalid', description:'Test', config }])).toThrow()
+  })
+  it('rejects malformed persisted easing and font size', () => {
+    for (const timing of ['cubic-bezier(0,1)', 'cubic-bezier(2,0,0,1)']) {
+      const config = cloneState(defaultButtonState)
+      config.transition.timing = timing
+      expect(() => serializePresets([{ id:'custom-invalid', name:'Invalid', description:'Test', config }])).toThrow()
+    }
+    const config = cloneState(defaultButtonState)
+    config.typography.size = 'auto'
+    expect(() => generateCSSCode(config)).toThrow('Invalid button configuration')
+  })
+})
+
+it('parses public unknown input into an independent typed state and preserves valid CSS grammars', () => {
+  const external: unknown = JSON.parse(JSON.stringify(defaultButtonState))
+  const result = parseButtonState(external)
+  result.border.radius = 30
+  expect((external as typeof result).border.radius).toBe(8)
+  for (const color of ['#abcd', '#aabbccdd', 'rgb(10 20 30)', 'rgba(10,20,30,.5)', 'hsl(120,50%,40%)']) {
+    const state = cloneState(defaultButtonState)
+    state.background.color = color
+    expect(generateCSSFromState(parseButtonState(state)).background).toBe(color)
+  }
+  for (const value of [null, [], {}, 'not a configuration']) expect(() => parseButtonState(value)).toThrow('Invalid button configuration')
+})
+
+it('rejects CSS-invalid numeric values at the shared public boundary', () => {
+  const config = cloneState(defaultButtonState)
+  config.typography.weight = -1
+  expect(() => parseButtonState(config)).toThrow('Invalid button configuration')
+  config.typography.weight = 500
+  config.backdrop.contrast = -1
+  expect(() => parseButtonState(config)).toThrow('Invalid button configuration')
+})
+
+it('requires own configuration fields and ignores custom serialization methods at the public boundary', () => {
+  expect(() => parseButtonState(Object.create(defaultButtonState))).toThrow('Invalid button configuration')
+  const toJSON = vi.fn(() => ({ unsafe: true }))
+  const input = { ...cloneState(defaultButtonState), toJSON }
+  expect(parseButtonState(input)).toEqual(defaultButtonState)
+  expect(toJSON).not.toHaveBeenCalled()
+  expect(generateCSSCode(input)).toContain('background: var(--acc)')
 })

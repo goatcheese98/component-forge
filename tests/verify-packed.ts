@@ -21,9 +21,24 @@ const modules = join(consumer, 'node_modules')
 mkdirSync(modules)
 execFileSync('tar', ['-xzf', join(consumer, entry.filename), '-C', modules])
 renameSync(join(modules, 'package'), join(modules, 'component-forge'))
-writeFileSync(join(consumer, 'index.ts'), `import { ButtonTestingLab, ThemeSelector, Icon, generateCSSCode, type ButtonTestState } from 'component-forge'
+writeFileSync(join(consumer, 'index.ts'), `import { ButtonTestingLab, ThemeSelector, Icon, generateCSSCode, generateCSSFromState, generateTailwindClasses, parseButtonState, parsePresets, serializePresets, type ButtonTestState } from 'component-forge'
+import { createSSRApp } from 'vue'
+import { renderToString } from '@vue/server-renderer'
 const render = (state: ButtonTestState): string => generateCSSCode(state)
 void [ButtonTestingLab, ThemeSelector, Icon, render]
+const external: unknown = null
+for (const exporter of [generateCSSCode, generateCSSFromState, generateTailwindClasses]) {
+  let rejected = false
+  try { exporter(external as ButtonTestState) } catch (error: unknown) { rejected = error instanceof TypeError && error.message === 'Invalid button configuration' }
+  if (!rejected) throw new Error('Packed export did not validate its public boundary')
+}
+const parseExternal = (value: unknown): ButtonTestState => parseButtonState(value)
+if (serializePresets(parsePresets('[]')) !== '[]') throw new Error('Preset parser roundtrip failed')
+void parseExternal
+const markup = await renderToString(createSSRApp(ButtonTestingLab, { buttonText: '<script>alert(1)</script>' }))
+if (markup.includes('<script>') || !markup.includes('&lt;script&gt;')) throw new Error('Packed SSR label was not escaped')
+const theme = await renderToString(createSSRApp(ThemeSelector))
+if (!theme.includes('Theme')) throw new Error('Packed theme selector failed SSR')
 `)
 writeFileSync(join(consumer, 'tsconfig.json'), JSON.stringify({
   compilerOptions: { strict: true, noEmit: true, module: 'ESNext', moduleResolution: 'Bundler', target: 'ES2022', skipLibCheck: false },
@@ -35,4 +50,4 @@ const require = createRequire(join(consumer, 'index.cjs'))
 assert.equal(require.resolve('component-forge'), join(modules, 'component-forge', 'dist', 'index.cjs'))
 const cjs: unknown = require('component-forge')
 assert.ok(cjs && typeof cjs === 'object' && 'ButtonTestingLab' in cjs && 'generateCSSCode' in cjs)
-console.log('Packed tarball: strict consumer declarations, ESM and CommonJS passed; no publish scripts ran.')
+console.log('Packed tarball: strict declarations, public validation, escaped-label SSR, ESM and CommonJS passed; no publish scripts ran.')

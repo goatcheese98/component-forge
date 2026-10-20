@@ -1,11 +1,13 @@
 import type { ButtonTestState } from './types'
+import { parseButtonState } from './button-state'
 
 export async function copyToClipboard(text: string): Promise<void> {
   if (typeof navigator === 'undefined' || !navigator.clipboard) throw new Error('Copy unavailable')
   await navigator.clipboard.writeText(text)
 }
 
-export function generateCSSFromState(state: ButtonTestState): Record<string, string> {
+export function generateCSSFromState(input: ButtonTestState): Record<string, string> {
+  const state = parseButtonState(input)
   const directions: Record<string, string> = { 'to-r': 'to right', 'to-l': 'to left', 'to-t': 'to top', 'to-b': 'to bottom', 'to-tr': 'to top right', 'to-tl': 'to top left', 'to-br': 'to bottom right', 'to-bl': 'to bottom left' }
   const shadows: string[] = []
   if (state.glow.enabled) shadows.push(`0 4px ${15 * state.glow.intensity / 100}px ${state.glow.color}`)

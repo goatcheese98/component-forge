@@ -6,6 +6,7 @@ export { default as ButtonTestingLab } from './components/testing/ButtonTestingL
 // Library utilities
 export * from './lib/utils'
 export * from './lib/types'
+export { parseButtonState, parsePresets, serializePresets, MAX_PRESETS } from './lib/button-state'
 
 // Styles
 import './style.css'

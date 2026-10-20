@@ -79,6 +79,40 @@ export const presets: ComponentPreset[] = [
 
 export const cloneState = (state: ButtonTestState): ButtonTestState => JSON.parse(JSON.stringify(state))
 
+// CSS accepted by presets and public exporters: hex, legacy RGB/HSL functions,
+// space-separated three-channel RGB/HSL, transparent, and the neutral accent token.
+function validColor(text: string): boolean {
+  if (/^(#[\da-f]{3}|#[\da-f]{4}|#[\da-f]{6}|#[\da-f]{8}|transparent|var\(--acc\))$/i.test(text)) return true
+  const match = /^(rgba?|hsla?)\(([^()]*)\)$/.exec(text)
+  if (!match) return false
+  const body = match[2]!.trim()
+  const channels = body.includes(',') ? body.split(',').map(part => part.trim()) : body.split(/\s+/)
+  if (channels.length !== 3 && !(body.includes(',') && channels.length === 4)) return false
+  const number = (token: string, max: number, percentOnly = false): boolean => {
+    if (!/^(?:\d+(?:\.\d+)?|\.\d+)%?$/.test(token)) return false
+    return (!percentOnly || token.endsWith('%')) && Number.parseFloat(token) <= (token.endsWith('%') ? 100 : max)
+  }
+  const alpha = channels[3]
+  if (alpha !== undefined && !number(alpha, 1)) return false
+  if (match[1]!.startsWith('rgb')) {
+    const rgb = channels.slice(0, 3)
+    if (body.includes(',') && rgb.some(token => token.endsWith('%')) && !rgb.every(token => token.endsWith('%'))) return false
+    return rgb.every(token => number(token, 255))
+  }
+  return /^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(channels[0]!) &&
+    Math.abs(Number(channels[0])) <= 10000 && number(channels[1]!, 100, true) && number(channels[2]!, 100, true)
+}
+function validTiming(text: string): boolean {
+  if (['ease','ease-in','ease-out','ease-in-out','linear'].includes(text)) return true
+  const match = /^cubic-bezier\(([^()]*)\)$/.exec(text)
+  if (!match) return false
+  const parts = match[1]!.split(',').map(part => part.trim())
+  if (parts.length !== 4 || parts.some(part => !/^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(part))) return false
+  const values = parts.map(Number)
+  return values.every(value => Number.isFinite(value) && Math.abs(value) <= 10000) &&
+    values[0]! >= 0 && values[0]! <= 1 && values[2]! >= 0 && values[2]! <= 1
+}
+
 // Storage is untrusted. Bound size, shape, numeric ranges, and CSS strings before use.
 function validShape(value: unknown, sample: unknown): boolean {
   if (typeof sample === 'number') return typeof value === 'number' && Number.isFinite(value) && Math.abs(value) <= 10000
@@ -86,25 +120,25 @@ function validShape(value: unknown, sample: unknown): boolean {
   if (typeof sample === 'string') return typeof value === 'string' && value.length <= 100 && /^[a-zA-Z0-9#(),.% +\-]*$|^var\(--(?:acc|on-acc)\)$/.test(value)
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const record = value as Record<string, unknown>
-  return Object.entries(sample as Record<string, unknown>).every(([key, item]) => validShape(record[key], item))
+  return Object.entries(sample as Record<string, unknown>).every(([key, item]) => Object.prototype.hasOwnProperty.call(record, key) && validShape(record[key], item))
 }
 export function isButtonState(value: unknown): value is ButtonTestState {
   if (!validShape(value, defaultButtonState)) return false
   const state = value as ButtonTestState
-  const color = (text: string): boolean => /^(#[0-9a-fA-F]{3,8}|transparent|var\(--acc\)|(?:rgb|rgba|hsl|hsla)\([0-9.,% ]+\))$/.test(text)
   const length = (text: string): boolean => /^(auto|[0-9]+(?:\.[0-9]+)?(?:px|rem|em|%))$/.test(text)
   return ['solid', 'gradient'].includes(state.background.type) &&
     ['to-r','to-l','to-t','to-b','to-tr','to-tl','to-br','to-bl'].includes(state.background.gradientDirection) &&
-    [state.background.color, state.background.gradientStart, state.background.gradientEnd, state.border.color, state.glow.color, state.shadow.color].every(color) &&
-    [state.typography.size, state.size.width, state.size.height].every(length) &&
+    [state.background.color, state.background.gradientStart, state.background.gradientEnd, state.border.color, state.glow.color, state.shadow.color].every(validColor) &&
+    [state.typography.size, state.size.width, state.size.height].every(length) && state.typography.size !== 'auto' &&
     ['none','uppercase','lowercase','capitalize'].includes(state.typography.transform) &&
     ['none','solid','dashed','dotted','double'].includes(state.border.style) &&
-    /^(ease|ease-in|ease-out|ease-in-out|linear|cubic-bezier\([-0-9., ]+\))$/.test(state.transition.timing) &&
+    validTiming(state.transition.timing) &&
     state.border.radius >= 0 && state.border.radius <= 100 && state.border.width >= 0 && state.border.width <= 20 &&
     state.size.padding >= 0 && state.size.padding <= 100 && state.transform.scale >= 0 && state.transform.scale <= 300 &&
     state.transition.duration >= 0 && state.transition.duration <= 10000 &&
     state.glow.intensity >= 0 && state.glow.intensity <= 100 && state.shadow.blur >= 0 && state.shadow.blur <= 100 &&
-    state.backdrop.blur >= 0 && state.backdrop.blur <= 100
+    state.backdrop.blur >= 0 && state.backdrop.blur <= 100 && state.backdrop.brightness >= 0 && state.backdrop.contrast >= 0 &&
+    state.typography.weight >= 1 && state.typography.weight <= 1000
 
 }
 export const MAX_PRESETS = 100
@@ -127,7 +161,7 @@ export function parsePresets(raw: string): ComponentPreset[] {
 }
 export function initialButtonState(partial?: Partial<ButtonTestState>): ButtonTestState {
   const merged = { ...cloneState(defaultButtonState), ...partial }
-  return isButtonState(merged) ? cloneState(merged) : cloneState(defaultButtonState)
+  return isButtonState(merged) ? parseButtonState(merged) : cloneState(defaultButtonState)
 }
 
 // Every write must be readable by the same bounded parser used on reload.
@@ -135,4 +169,16 @@ export function serializePresets(value: ComponentPreset[]): string {
   const raw = JSON.stringify(value)
   parsePresets(raw)
   return raw
+}
+
+/** Validate untrusted imported data before using it in a preview or exporter. */
+export function parseButtonState(value: unknown): ButtonTestState {
+  if (!isButtonState(value)) throw new TypeError('Invalid button configuration')
+  // Copy only known data fields, never user-defined toJSON methods or extra keys.
+  const copy = (input: unknown, schema: unknown): unknown => {
+    if (!schema || typeof schema !== 'object') return input
+    const record = input as Record<string, unknown>
+    return Object.fromEntries(Object.entries(schema).map(([key, sample]) => [key, copy(record[key], sample)]))
+  }
+  return copy(value, defaultButtonState) as ButtonTestState
 }

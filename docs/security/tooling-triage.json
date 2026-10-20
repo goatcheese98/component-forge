@@ -1,0 +1,4416 @@
+{
+  "advisories": [
+    {
+      "url": "https://github.com/advisories/GHSA-p498-v437-472g",
+      "title": "humanfs: Recursive copy follows symlinked files and copies data from outside the source tree",
+      "severity": "moderate",
+      "packages": [
+        "@humanfs/node"
+      ],
+      "affected_ranges": [
+        "<0.16.8"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @humanfs/node@0.16.6"
+      ],
+      "nodes": [
+        "node_modules/@humanfs/node"
+      ],
+      "exposure": "ESLint uses humanfs for repository traversal. The vulnerable recursive-copy API requires a copy operation over attacker-controlled symlinks; these scripts do not call that API. It was patched rather than exempted.",
+      "final_versions": {
+        "@humanfs/node": [
+          "0.16.8"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): @humanfs/node 0.16.8"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+      "title": "Vitest: Path Traversal / Arbitrary File Read via @vitest/mocker Redirect Mock",
+      "severity": "moderate",
+      "packages": [
+        "@vitest/mocker",
+        "vitest"
+      ],
+      "affected_ranges": [
+        ">=2.1.0 <4.1.11"
+      ],
+      "chains": [
+        "component-forge > vitest@3.2.4",
+        "component-forge > vitest@3.2.4 > @vitest/mocker@3.2.4"
+      ],
+      "nodes": [
+        "node_modules/@vitest/mocker",
+        "node_modules/vitest"
+      ],
+      "exposure": "The test UI/API and redirect-mock route can handle attacker-controlled URL paths when the test server is listening. test:ui is an advertised command, so this was treated as reachable server tooling, not dismissed because tests are development dependencies. The advertised test:ui command starts the affected server. An attacker reaching its API is the stated file-read/execution precondition; loopback alone is not considered a fix. The patched UI and real loopback HTTP endpoint were verified.",
+      "final_versions": {
+        "@vitest/mocker": [
+          "4.1.11"
+        ],
+        "vitest": [
+          "4.1.11"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): @vitest/mocker 4.1.11, vitest 4.1.11"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+      "title": "ajv has ReDoS when using `$data` option",
+      "severity": "moderate",
+      "packages": [
+        "ajv"
+      ],
+      "affected_ranges": [
+        "<6.14.0"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > ajv@6.12.6"
+      ],
+      "nodes": [
+        "node_modules/ajv"
+      ],
+      "exposure": "ESLint loads Ajv for configuration/schema checks. The ReDoS advisory requires the $data option and adversarial schema/data; this repository uses a checked-in flat TS config and does not enable $data. A compatible patch was still installed.",
+      "final_versions": {
+        "ajv": [
+          "6.15.0"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): ajv 6.15.0"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+      "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+      "severity": "moderate",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.13",
+        ">=2.0.0 <2.0.3"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "severity": "high",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.16",
+        ">=2.0.0 <2.1.2"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "severity": "high",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.17",
+        ">=2.0.0 <2.1.3"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "severity": "high",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.18",
+        ">=2.0.0 <2.1.4"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "severity": "moderate",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.21",
+        ">=2.0.0 <2.1.7"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "severity": "high",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.20",
+        ">=2.0.0 <2.1.6"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "severity": "high",
+      "packages": [
+        "brace-expansion"
+      ],
+      "affected_ranges": [
+        "<1.1.19",
+        ">=2.0.0 <2.1.5"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5 > brace-expansion@2.0.2",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2 > brace-expansion@1.1.12",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2 > brace-expansion@1.1.12"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/brace-expansion",
+        "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+        "node_modules/brace-expansion",
+        "node_modules/eslint/node_modules/brace-expansion"
+      ],
+      "exposure": "Build/lint glob discovery can invoke expansion. Exploitation requires adversarial expanding/nested pattern text; current content patterns are fixed in tracked configuration, but untrusted CI configuration changes could exercise the function. Compatible patched branches were installed.",
+      "final_versions": {
+        "brace-expansion": [
+          "1.1.21",
+          "2.1.7",
+          "5.0.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): brace-expansion 1.1.21/2.1.7/5.0.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+      "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+      "severity": "high",
+      "packages": [
+        "braces"
+      ],
+      "affected_ranges": [
+        "<=3.0.3"
+      ],
+      "chains": [
+        "component-forge > tailwindcss@3.4.17 > chokidar@3.6.0 > braces@3.0.3"
+      ],
+      "nodes": [
+        "node_modules/braces"
+      ],
+      "exposure": "Tailwind content discovery/watch loads braces via micromatch and chokidar. Deep attacker-controlled glob patterns can exhaust the stack. Current patterns are fixed tracked strings (tailwind.config.js), not gallery input or file contents; no pattern-input API exists in the app. This remains an unresolved high advisory, not harmless tooling.",
+      "final_versions": {
+        "braces": [
+          "3.0.3"
+        ]
+      },
+      "status": "unresolved",
+      "fixed_version": "No published fixed braces version. Registry latest is 3.0.3; advisory covers <=3.0.3."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx",
+      "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+      "severity": "high",
+      "packages": [
+        "browserslist"
+      ],
+      "affected_ranges": [
+        "<=4.28.6"
+      ],
+      "chains": [
+        "component-forge > autoprefixer@10.4.21 > browserslist@4.25.1"
+      ],
+      "nodes": [
+        "node_modules/browserslist"
+      ],
+      "exposure": "Autoprefixer/build processing loads Browserslist. Distinct adversarial queries or a malicious browserslist-stats.json trigger the cache/prototype paths; no custom statistics file or user-controlled query is present. Long-lived dev/build tooling can still be exposed by changed project configuration; patched within the existing major.",
+      "final_versions": {
+        "browserslist": [
+          "4.29.4"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): browserslist 4.29.4"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+      "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+      "severity": "high",
+      "packages": [
+        "browserslist"
+      ],
+      "affected_ranges": [
+        "<=4.28.6"
+      ],
+      "chains": [
+        "component-forge > autoprefixer@10.4.21 > browserslist@4.25.1"
+      ],
+      "nodes": [
+        "node_modules/browserslist"
+      ],
+      "exposure": "Autoprefixer/build processing loads Browserslist. Distinct adversarial queries or a malicious browserslist-stats.json trigger the cache/prototype paths; no custom statistics file or user-controlled query is present. Long-lived dev/build tooling can still be exposed by changed project configuration; patched within the existing major.",
+      "final_versions": {
+        "browserslist": [
+          "4.29.4"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): browserslist 4.29.4"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-px8p-9vwx-vf98",
+      "title": "fflate unzipSync can enter an infinite loop when parsing malformed ZIP64 archives",
+      "severity": "moderate",
+      "packages": [
+        "fflate"
+      ],
+      "affected_ranges": [
+        ">=0.8.0 <0.8.3"
+      ],
+      "chains": [
+        "component-forge > @vitest/ui@3.2.4 > fflate@0.8.2"
+      ],
+      "nodes": [
+        "node_modules/fflate"
+      ],
+      "exposure": "Vitest UI/report tooling can decompress archives. The malformed ZIP64 precondition is not exposed as a gallery upload endpoint; unsafe report/archive input could still trigger it. Patched to 0.8.3.",
+      "final_versions": {
+        "fflate": [
+          "0.8.3"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): fflate 0.8.3"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+      "title": "flatted vulnerable to unbounded recursion DoS in parse() revive phase",
+      "severity": "high",
+      "packages": [
+        "flatted"
+      ],
+      "affected_ranges": [
+        "<3.4.0"
+      ],
+      "chains": [
+        "component-forge > @vitest/ui@3.2.4 > flatted@3.3.3"
+      ],
+      "nodes": [
+        "node_modules/flatted"
+      ],
+      "exposure": "ESLint file-cache tooling depends on flatted. Parsing poisoned cache data is the trigger; lint currently runs without --cache and no cache import is exposed. Parser patches were installed, not ignored.",
+      "final_versions": {
+        "flatted": [
+          "3.4.4"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): flatted 3.4.4"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+      "title": "Prototype Pollution via parse() in NodeJS flatted",
+      "severity": "high",
+      "packages": [
+        "flatted"
+      ],
+      "affected_ranges": [
+        "<=3.4.1"
+      ],
+      "chains": [
+        "component-forge > @vitest/ui@3.2.4 > flatted@3.3.3"
+      ],
+      "nodes": [
+        "node_modules/flatted"
+      ],
+      "exposure": "ESLint file-cache tooling depends on flatted. Parsing poisoned cache data is the trigger; lint currently runs without --cache and no cache import is exposed. Parser patches were installed, not ignored.",
+      "final_versions": {
+        "flatted": [
+          "3.4.4"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): flatted 3.4.4"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+      "title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+      "severity": "high",
+      "packages": [
+        "glob"
+      ],
+      "affected_ranges": [
+        ">=10.2.0 <10.5.0"
+      ],
+      "chains": [
+        "component-forge > tailwindcss@3.4.17 > sucrase@3.35.0 > glob@10.4.5"
+      ],
+      "nodes": [
+        "node_modules/glob"
+      ],
+      "exposure": "The command-injection advisory is in the glob CLI -c/--cmd shell path. The repository uses glob programmatically through tooling and has no glob -c/--cmd invocation. The CLI package was nevertheless patched to 10.5.0.",
+      "final_versions": {
+        "glob": [
+          "10.5.0"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): glob 10.5.0"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+      "title": "js-yaml has prototype pollution in merge (<<)",
+      "severity": "moderate",
+      "packages": [
+        "js-yaml"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <4.1.1"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > js-yaml@4.1.0"
+      ],
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "exposure": "ESLint legacy configuration support depends on YAML parsing. Adversarial merge keys/aliases/omap data trigger these advisories; the active configuration is eslint.config.ts and no YAML config import is exposed to gallery users. Compatible parser repairs were installed.",
+      "final_versions": {
+        "js-yaml": [
+          "4.3.2"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): js-yaml 4.3.2"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+      "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+      "severity": "moderate",
+      "packages": [
+        "js-yaml"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <=4.1.1"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > js-yaml@4.1.0"
+      ],
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "exposure": "ESLint legacy configuration support depends on YAML parsing. Adversarial merge keys/aliases/omap data trigger these advisories; the active configuration is eslint.config.ts and no YAML config import is exposed to gallery users. Compatible parser repairs were installed.",
+      "final_versions": {
+        "js-yaml": [
+          "4.3.2"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): js-yaml 4.3.2"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+      "title": "js-yaml: YAML merge-key chains can force quadratic CPU consumption",
+      "severity": "high",
+      "packages": [
+        "js-yaml"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <4.3.0"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > js-yaml@4.1.0"
+      ],
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "exposure": "ESLint legacy configuration support depends on YAML parsing. Adversarial merge keys/aliases/omap data trigger these advisories; the active configuration is eslint.config.ts and no YAML config import is exposed to gallery users. Compatible parser repairs were installed.",
+      "final_versions": {
+        "js-yaml": [
+          "4.3.2"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): js-yaml 4.3.2"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+      "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) \u2014 CVE-2026-59870 fix not backported",
+      "severity": "high",
+      "packages": [
+        "js-yaml"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <4.3.1"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > js-yaml@4.1.0"
+      ],
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "exposure": "ESLint legacy configuration support depends on YAML parsing. Adversarial merge keys/aliases/omap data trigger these advisories; the active configuration is eslint.config.ts and no YAML config import is exposed to gallery users. Compatible parser repairs were installed.",
+      "final_versions": {
+        "js-yaml": [
+          "4.3.2"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): js-yaml 4.3.2"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+      "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+      "severity": "high",
+      "packages": [
+        "js-yaml"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <4.3.2"
+      ],
+      "chains": [
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > js-yaml@4.1.0"
+      ],
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "exposure": "ESLint legacy configuration support depends on YAML parsing. Adversarial merge keys/aliases/omap data trigger these advisories; the active configuration is eslint.config.ts and no YAML config import is exposed to gallery users. Compatible parser repairs were installed.",
+      "final_versions": {
+        "js-yaml": [
+          "4.3.2"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): js-yaml 4.3.2"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "severity": "high",
+      "packages": [
+        "minimatch"
+      ],
+      "affected_ranges": [
+        "<3.1.3",
+        ">=9.0.0 <9.0.6"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/minimatch",
+        "node_modules/@eslint/eslintrc/node_modules/minimatch",
+        "node_modules/eslint/node_modules/minimatch",
+        "node_modules/minimatch"
+      ],
+      "exposure": "File-discovery and lint/build filtering invoke glob matching. Backtracking needs adversarial pattern structure; current include/exclude patterns are tracked constants. PR/configuration changes remain a possible CI resource-exhaustion path, so compatible branches were patched.",
+      "final_versions": {
+        "minimatch": [
+          "10.2.6",
+          "3.1.5",
+          "9.0.9"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): minimatch 10.2.6/3.1.5/9.0.9"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "severity": "high",
+      "packages": [
+        "minimatch"
+      ],
+      "affected_ranges": [
+        "<3.1.3",
+        ">=9.0.0 <9.0.7"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/minimatch",
+        "node_modules/@eslint/eslintrc/node_modules/minimatch",
+        "node_modules/eslint/node_modules/minimatch",
+        "node_modules/minimatch"
+      ],
+      "exposure": "File-discovery and lint/build filtering invoke glob matching. Backtracking needs adversarial pattern structure; current include/exclude patterns are tracked constants. PR/configuration changes remain a possible CI resource-exhaustion path, so compatible branches were patched.",
+      "final_versions": {
+        "minimatch": [
+          "10.2.6",
+          "3.1.5",
+          "9.0.9"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): minimatch 10.2.6/3.1.5/9.0.9"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "severity": "high",
+      "packages": [
+        "minimatch"
+      ],
+      "affected_ranges": [
+        "<3.1.4",
+        ">=9.0.0 <9.0.7"
+      ],
+      "chains": [
+        "component-forge > @vue/eslint-config-typescript@14.6.0 > @typescript-eslint/utils@8.38.0 > @typescript-eslint/typescript-estree@8.38.0 > minimatch@9.0.5",
+        "component-forge > eslint@9.31.0 > @eslint/config-array@0.21.0 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > @eslint/eslintrc@3.3.1 > minimatch@3.1.2",
+        "component-forge > eslint@9.31.0 > minimatch@3.1.2"
+      ],
+      "nodes": [
+        "node_modules/@eslint/config-array/node_modules/minimatch",
+        "node_modules/@eslint/eslintrc/node_modules/minimatch",
+        "node_modules/eslint/node_modules/minimatch",
+        "node_modules/minimatch"
+      ],
+      "exposure": "File-discovery and lint/build filtering invoke glob matching. Backtracking needs adversarial pattern structure; current include/exclude patterns are tracked constants. PR/configuration changes remain a possible CI resource-exhaustion path, so compatible branches were patched.",
+      "final_versions": {
+        "minimatch": [
+          "10.2.6",
+          "3.1.5",
+          "9.0.9"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): minimatch 10.2.6/3.1.5/9.0.9"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+      "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+      "severity": "moderate",
+      "packages": [
+        "picomatch"
+      ],
+      "affected_ranges": [
+        "<2.3.2",
+        ">=4.0.0 <4.0.4"
+      ],
+      "chains": [
+        "component-forge > @vitest/ui@3.2.4 > tinyglobby@0.2.14 > picomatch@4.0.3",
+        "component-forge > tailwindcss@3.4.17 > micromatch@4.0.8 > picomatch@2.3.1",
+        "component-forge > vite@7.0.5 > picomatch@4.0.3",
+        "component-forge > vitest@3.2.4 > picomatch@4.0.3",
+        "component-forge > vue-tsc@3.0.3 > @vue/language-core@3.0.3 > picomatch@4.0.3"
+      ],
+      "nodes": [
+        "node_modules/@vue/language-core/node_modules/picomatch",
+        "node_modules/picomatch",
+        "node_modules/tinyglobby/node_modules/picomatch",
+        "node_modules/vite/node_modules/picomatch",
+        "node_modules/vitest/node_modules/picomatch"
+      ],
+      "exposure": "Vite/Tailwind/test discovery uses pattern matching. Adversarial POSIX classes or extglob patterns are the trigger, not ordinary label/preset data. Tracked build patterns constrain current inputs; patched in both installed major branches.",
+      "final_versions": {
+        "picomatch": [
+          "2.3.2",
+          "4.0.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): picomatch 2.3.2/4.0.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+      "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+      "severity": "high",
+      "packages": [
+        "picomatch"
+      ],
+      "affected_ranges": [
+        "<2.3.2",
+        ">=4.0.0 <4.0.4"
+      ],
+      "chains": [
+        "component-forge > @vitest/ui@3.2.4 > tinyglobby@0.2.14 > picomatch@4.0.3",
+        "component-forge > tailwindcss@3.4.17 > micromatch@4.0.8 > picomatch@2.3.1",
+        "component-forge > vite@7.0.5 > picomatch@4.0.3",
+        "component-forge > vitest@3.2.4 > picomatch@4.0.3",
+        "component-forge > vue-tsc@3.0.3 > @vue/language-core@3.0.3 > picomatch@4.0.3"
+      ],
+      "nodes": [
+        "node_modules/@vue/language-core/node_modules/picomatch",
+        "node_modules/picomatch",
+        "node_modules/tinyglobby/node_modules/picomatch",
+        "node_modules/vite/node_modules/picomatch",
+        "node_modules/vitest/node_modules/picomatch"
+      ],
+      "exposure": "Vite/Tailwind/test discovery uses pattern matching. Adversarial POSIX classes or extglob patterns are the trigger, not ordinary label/preset data. Tracked build patterns constrain current inputs; patched in both installed major branches.",
+      "final_versions": {
+        "picomatch": [
+          "2.3.2",
+          "4.0.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): picomatch 2.3.2/4.0.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-w9m9-85wc-3x92",
+      "title": "postcss-selector-parser allows denial of service through uncontrolled AST recursion",
+      "severity": "low",
+      "packages": [
+        "postcss-selector-parser"
+      ],
+      "affected_ranges": [
+        ">=6.1.0 <6.1.3"
+      ],
+      "chains": [
+        "component-forge > @tailwindcss/typography@0.5.16 > postcss-selector-parser@6.0.10",
+        "component-forge > eslint-plugin-vue@10.3.0 > postcss-selector-parser@6.1.2",
+        "component-forge > tailwindcss@3.4.17 > postcss-nested@6.2.0 > postcss-selector-parser@6.1.2",
+        "component-forge > tailwindcss@3.4.17 > postcss-selector-parser@6.1.2"
+      ],
+      "nodes": [
+        "node_modules/eslint-plugin-vue/node_modules/postcss-selector-parser",
+        "node_modules/postcss-nested/node_modules/postcss-selector-parser",
+        "node_modules/postcss-selector-parser",
+        "node_modules/tailwindcss/node_modules/postcss-selector-parser"
+      ],
+      "exposure": "Tailwind/PostCSS/typography can parse CSS selectors supplied by repository source. Untrusted PR CSS or imported project styles can trigger CPU exhaustion during build; this is a real build-input exposure. Some parents still constrain parser 6.x, so the remaining advisory is not declared resolved.",
+      "final_versions": {
+        "postcss-selector-parser": [
+          "6.0.10",
+          "6.1.5",
+          "7.1.6"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "7.1.6; retained Tailwind/PostCSS/typography constraints also install 6.0.10/6.1.5. The earlier 6.1.0..<6.1.3 recursion issue was patched in affected 6.1.5 nodes."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+      "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+      "severity": "moderate",
+      "packages": [
+        "postcss-selector-parser"
+      ],
+      "affected_ranges": [
+        "<7.1.6"
+      ],
+      "chains": [
+        "component-forge > @tailwindcss/typography@0.5.16 > postcss-selector-parser@6.0.10",
+        "component-forge > eslint-plugin-vue@10.3.0 > postcss-selector-parser@6.1.2",
+        "component-forge > tailwindcss@3.4.17 > postcss-nested@6.2.0 > postcss-selector-parser@6.1.2",
+        "component-forge > tailwindcss@3.4.17 > postcss-selector-parser@6.1.2"
+      ],
+      "nodes": [
+        "node_modules/eslint-plugin-vue/node_modules/postcss-selector-parser",
+        "node_modules/postcss-nested/node_modules/postcss-selector-parser",
+        "node_modules/postcss-selector-parser",
+        "node_modules/tailwindcss/node_modules/postcss-selector-parser"
+      ],
+      "exposure": "Tailwind/PostCSS/typography can parse CSS selectors supplied by repository source. Untrusted PR CSS or imported project styles can trigger CPU exhaustion during build; this is a real build-input exposure. Some parents still constrain parser 6.x, so the remaining advisory is not declared resolved.",
+      "final_versions": {
+        "postcss-selector-parser": [
+          "6.0.10",
+          "6.1.5",
+          "7.1.6"
+        ]
+      },
+      "status": "unresolved",
+      "fixed_version": "7.1.6; retained Tailwind/PostCSS/typography constraints also install 6.0.10/6.1.5. The earlier 6.1.0..<6.1.3 recursion issue was patched in affected 6.1.5 nodes."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+      "title": "Rollup 4 has Arbitrary File Write via Path Traversal",
+      "severity": "high",
+      "packages": [
+        "rollup"
+      ],
+      "affected_ranges": [
+        ">=4.0.0 <4.59.0"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5 > rollup@4.45.1"
+      ],
+      "nodes": [
+        "node_modules/rollup"
+      ],
+      "exposure": "Application/library builds execute Rollup output generation. The write-path advisory needs attacker-controlled output filenames/path construction; output paths here are tracked vite.config.ts values. Build plugins or untrusted source/configuration can widen exposure. Patched to a fixed 4.x release.",
+      "final_versions": {
+        "rollup": [
+          "4.64.12"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): rollup 4.64.12"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+      "title": "Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution",
+      "severity": "critical",
+      "packages": [
+        "tinypool"
+      ],
+      "affected_ranges": [
+        "<=2.1.0"
+      ],
+      "chains": [
+        "component-forge > vitest@3.2.4 > tinypool@1.1.1"
+      ],
+      "nodes": [
+        "node_modules/tinypool"
+      ],
+      "exposure": "Vitest 3 normal test runs execute this worker pool. The RCE gadgets require prototype pollution plus affected worker/run options; no pollution source was demonstrated in project tests, but the affected worker operation is used in CI. Vitest 4 removes this dependency entirely, avoiding an incompatible override of Vitest 3's ^1.1.1 constraint.",
+      "final_versions": {
+        "tinypool": []
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "2.1.2 fixes both pool advisories, but Vitest 3 declares ^1.1.1 and no fixed 1.x exists. Repair: Vitest 4.1.11 removes tinypool."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+      "title": "Tinypool: Prototype Pollution Gadget to RCE in run() options",
+      "severity": "critical",
+      "packages": [
+        "tinypool"
+      ],
+      "affected_ranges": [
+        "<2.1.2"
+      ],
+      "chains": [
+        "component-forge > vitest@3.2.4 > tinypool@1.1.1"
+      ],
+      "nodes": [
+        "node_modules/tinypool"
+      ],
+      "exposure": "Vitest 3 normal test runs execute this worker pool. The RCE gadgets require prototype pollution plus affected worker/run options; no pollution source was demonstrated in project tests, but the affected worker operation is used in CI. Vitest 4 removes this dependency entirely, avoiding an incompatible override of Vitest 3's ^1.1.1 constraint.",
+      "final_versions": {
+        "tinypool": []
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "2.1.2 fixes both pool advisories, but Vitest 3 declares ^1.1.1 and no fixed 1.x exists. Repair: Vitest 4.1.11 removes tinypool."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+      "title": "Vite middleware may serve files starting with the same name with the public directory",
+      "severity": "low",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.0.6"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+      "title": "Vite's `server.fs` settings were not applied to HTML files",
+      "severity": "low",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.0.6"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-93m4-6634-74q7",
+      "title": "vite allows server.fs.deny bypass via backslash on Windows",
+      "severity": "moderate",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.0.7"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+      "title": "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+      "severity": "moderate",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.3.1"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-p9ff-h696-f583",
+      "title": "Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket",
+      "severity": "high",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.3.1"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-v6wh-96g9-6wx3",
+      "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+      "severity": "moderate",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.3.4"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+      "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+      "severity": "high",
+      "packages": [
+        "vite"
+      ],
+      "affected_ranges": [
+        ">=7.0.0 <=7.3.4"
+      ],
+      "chains": [
+        "component-forge > vite@7.0.5"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "exposure": "npm run dev and Vitest UI run Vite server code. Adversarial HTTP/WebSocket paths can reach file-serving/optimized-map handlers; Windows-only paths do not trigger on this Linux executor but remain relevant to developers. Vite 7.3.7 patches the recorded server advisories; real dev HTTP responses were checked.",
+      "final_versions": {
+        "vite": [
+          "7.3.7"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vite 7.3.7"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-5xrq-8626-4rwp",
+      "title": "When Vitest UI server is listening, arbitrary file can be read and executed",
+      "severity": "critical",
+      "packages": [
+        "vitest"
+      ],
+      "affected_ranges": [
+        "<3.2.6"
+      ],
+      "chains": [
+        "component-forge > vitest@3.2.4"
+      ],
+      "nodes": [
+        "node_modules/vitest"
+      ],
+      "exposure": "The advertised test:ui command starts the affected server. An attacker reaching its API is the stated file-read/execution precondition; loopback alone is not considered a fix. The patched UI and real loopback HTTP endpoint were verified.",
+      "final_versions": {
+        "vitest": [
+          "4.1.11"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): vitest 4.1.11"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+      "title": "yaml is vulnerable to Stack Overflow via deeply nested YAML collections",
+      "severity": "moderate",
+      "packages": [
+        "yaml"
+      ],
+      "affected_ranges": [
+        ">=2.0.0 <2.8.3"
+      ],
+      "chains": [
+        "component-forge > tailwindcss@3.4.17 > postcss-load-config@4.0.2 > yaml@2.8.0"
+      ],
+      "nodes": [
+        "node_modules/yaml"
+      ],
+      "exposure": "PostCSS/config loaders can parse YAML configuration. Deep malicious collections are the trigger. Current PostCSS config is JS, not YAML; repository/configuration inputs could still change that exposure. Compatible parser patch installed.",
+      "final_versions": {
+        "yaml": [
+          "2.9.1"
+        ]
+      },
+      "status": "repaired_or_removed",
+      "fixed_version": "Verified repaired installed release(s): yaml 2.9.1"
+    }
+  ],
+  "affected_package_records": [
+    {
+      "name": "@eslint-community/eslint-utils",
+      "severity": "high",
+      "via": [
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@eslint-community/eslint-utils",
+          "version": "4.7.0",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint-community/eslint-utils@4.7.0"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/utils@8.38.0",
+            "eslint-plugin-vue@10.3.0",
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@eslint/config-array",
+      "severity": "high",
+      "via": [
+        "minimatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@eslint/config-array",
+          "version": "0.21.0",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/config-array@0.21.0"
+          ],
+          "direct_parents": [
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "severity": "high",
+      "via": [
+        "ajv",
+        "js-yaml",
+        "minimatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@eslint/eslintrc",
+          "version": "3.3.1",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/eslintrc@3.3.1"
+          ],
+          "direct_parents": [
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@humanfs/node",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1158499,
+          "name": "@humanfs/node",
+          "dependency": "@humanfs/node",
+          "title": "humanfs: Recursive copy follows symlinked files and copies data from outside the source tree",
+          "url": "https://github.com/advisories/GHSA-p498-v437-472g",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<0.16.8"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@humanfs/node",
+          "version": "0.16.6",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@humanfs/node@0.16.6"
+          ],
+          "direct_parents": [
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-p498-v437-472g"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@tailwindcss/typography",
+      "severity": "moderate",
+      "via": [
+        "postcss-selector-parser",
+        "tailwindcss"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@tailwindcss/typography",
+          "version": "0.5.16",
+          "chain": [
+            "component-forge",
+            "@tailwindcss/typography@0.5.16"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "@tailwindcss/typography",
+        "severity": "moderate",
+        "isDirect": true,
+        "via": [
+          "postcss-selector-parser",
+          "tailwindcss"
+        ],
+        "effects": [],
+        "range": "",
+        "nodes": [
+          "node_modules/@tailwindcss/typography"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "severity": "high",
+      "via": [
+        "@typescript-eslint/parser",
+        "@typescript-eslint/type-utils",
+        "@typescript-eslint/utils",
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@typescript-eslint/eslint-plugin",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "typescript-eslint@8.38.0",
+            "@typescript-eslint/eslint-plugin@8.38.0"
+          ],
+          "direct_parents": [
+            "typescript-eslint@8.38.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "severity": "high",
+      "via": [
+        "@typescript-eslint/typescript-estree",
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@typescript-eslint/parser",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "typescript-eslint@8.38.0",
+            "@typescript-eslint/parser@8.38.0"
+          ],
+          "direct_parents": [
+            "typescript-eslint@8.38.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "@typescript-eslint/type-utils",
+      "severity": "high",
+      "via": [
+        "@typescript-eslint/typescript-estree",
+        "@typescript-eslint/utils",
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@typescript-eslint/type-utils",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "typescript-eslint@8.38.0",
+            "@typescript-eslint/eslint-plugin@8.38.0",
+            "@typescript-eslint/type-utils@8.38.0"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/eslint-plugin@8.38.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "@typescript-eslint/typescript-estree",
+      "severity": "high",
+      "via": [
+        "fast-glob",
+        "minimatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@typescript-eslint/typescript-estree",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "@typescript-eslint/utils@8.38.0",
+            "@typescript-eslint/typescript-estree@8.38.0"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/parser@8.38.0",
+            "@typescript-eslint/type-utils@8.38.0",
+            "@typescript-eslint/utils@8.38.0",
+            "typescript-eslint@8.38.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "@typescript-eslint/utils",
+      "severity": "high",
+      "via": [
+        "@eslint-community/eslint-utils",
+        "@typescript-eslint/typescript-estree",
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@typescript-eslint/utils",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "@typescript-eslint/utils@8.38.0"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/eslint-plugin@8.38.0",
+            "@typescript-eslint/type-utils@8.38.0",
+            "@vue/eslint-config-typescript@14.6.0",
+            "typescript-eslint@8.38.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "@vitejs/plugin-vue",
+      "severity": "low",
+      "via": [
+        "vite"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vitejs/plugin-vue",
+          "version": "6.0.0",
+          "chain": [
+            "component-forge",
+            "@vitejs/plugin-vue@6.0.0"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@vitest/mocker",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1193684,
+          "name": "@vitest/mocker",
+          "dependency": "@vitest/mocker",
+          "title": "Vitest: Path Traversal / Arbitrary File Read via @vitest/mocker Redirect Mock",
+          "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=2.1.0 <4.1.11"
+        },
+        "vite"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vitest/mocker",
+          "version": "3.2.4",
+          "chain": [
+            "component-forge",
+            "vitest@3.2.4",
+            "@vitest/mocker@3.2.4"
+          ],
+          "direct_parents": [
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@vitest/ui",
+      "severity": "critical",
+      "via": [
+        "fflate",
+        "flatted",
+        "tinyglobby",
+        "vitest"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vitest/ui",
+          "version": "3.2.4",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+        "https://github.com/advisories/GHSA-5xrq-8626-4rwp",
+        "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+        "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-px8p-9vwx-vf98",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@vue/eslint-config-prettier",
+      "severity": "high",
+      "via": [
+        "eslint",
+        "eslint-config-prettier",
+        "eslint-plugin-prettier"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vue/eslint-config-prettier",
+          "version": "10.2.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-prettier@10.2.0"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "@vue/eslint-config-typescript",
+      "severity": "high",
+      "via": [
+        "@typescript-eslint/utils",
+        "eslint",
+        "eslint-plugin-vue",
+        "fast-glob",
+        "typescript-eslint",
+        "vue-eslint-parser"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vue/eslint-config-typescript",
+          "version": "14.6.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "@vue/eslint-config-typescript",
+        "severity": "high",
+        "isDirect": true,
+        "via": [
+          "fast-glob"
+        ],
+        "effects": [],
+        "range": "",
+        "nodes": [
+          "node_modules/@vue/eslint-config-typescript"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "@vue/language-core",
+      "severity": "moderate",
+      "via": [
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vue/language-core",
+          "version": "3.0.3",
+          "chain": [
+            "component-forge",
+            "vue-tsc@3.0.3",
+            "@vue/language-core@3.0.3"
+          ],
+          "direct_parents": [
+            "vue-tsc@3.0.3"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "ajv",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1113714,
+          "name": "ajv",
+          "dependency": "ajv",
+          "title": "ajv has ReDoS when using `$data` option",
+          "url": "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<6.14.0"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/ajv",
+          "version": "6.12.6",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "ajv@6.12.6"
+          ],
+          "direct_parents": [
+            "@eslint/eslintrc@3.3.1",
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "anymatch",
+      "severity": "moderate",
+      "via": [
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/anymatch",
+          "version": "3.1.3",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "chokidar@3.6.0",
+            "anymatch@3.1.3"
+          ],
+          "direct_parents": [
+            "chokidar@3.6.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "autoprefixer",
+      "severity": "high",
+      "via": [
+        "browserslist"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/autoprefixer",
+          "version": "10.4.21",
+          "chain": [
+            "component-forge",
+            "autoprefixer@10.4.21"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+        "https://github.com/advisories/GHSA-c83g-rgw3-j3cx"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "brace-expansion",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1115540,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+          "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.1.13"
+        },
+        {
+          "source": 1115541,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+          "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=2.0.0 <2.0.3"
+        },
+        {
+          "source": 1123896,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+          "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.0.0 <2.1.2"
+        },
+        {
+          "source": 1123897,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+          "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<1.1.16"
+        },
+        {
+          "source": 1130588,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+          "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.1.17"
+        },
+        {
+          "source": 1130589,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+          "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=2.0.0 <2.1.3"
+        },
+        {
+          "source": 1130736,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+          "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=2.0.0 <2.1.4"
+        },
+        {
+          "source": 1130737,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+          "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.1.18"
+        },
+        {
+          "source": 1240100,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+          "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<1.1.21"
+        },
+        {
+          "source": 1240101,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+          "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.0.0 <2.1.7"
+        },
+        {
+          "source": 1240104,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+          "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.1.20"
+        },
+        {
+          "source": 1240105,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+          "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=2.0.0 <2.1.6"
+        },
+        {
+          "source": 1240108,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+          "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.1.19"
+        },
+        {
+          "source": 1240109,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+          "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=2.0.0 <2.1.5"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@eslint/config-array/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/config-array@0.21.0",
+            "minimatch@3.1.2",
+            "brace-expansion@1.1.12"
+          ],
+          "direct_parents": [
+            "minimatch@3.1.2"
+          ]
+        },
+        {
+          "path": "node_modules/@eslint/eslintrc/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/eslintrc@3.3.1",
+            "minimatch@3.1.2",
+            "brace-expansion@1.1.12"
+          ],
+          "direct_parents": [
+            "minimatch@3.1.2"
+          ]
+        },
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "@typescript-eslint/utils@8.38.0",
+            "@typescript-eslint/typescript-estree@8.38.0",
+            "minimatch@9.0.5",
+            "brace-expansion@2.0.2"
+          ],
+          "direct_parents": [
+            "minimatch@9.0.5"
+          ]
+        },
+        {
+          "path": "node_modules/eslint/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "minimatch@3.1.2",
+            "brace-expansion@1.1.12"
+          ],
+          "direct_parents": [
+            "minimatch@3.1.2"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "braces",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1240992,
+          "name": "braces",
+          "dependency": "braces",
+          "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+          "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+          "severity": "high",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=3.0.3"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/braces",
+          "version": "3.0.3",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "chokidar@3.6.0",
+            "braces@3.0.3"
+          ],
+          "direct_parents": [
+            "chokidar@3.6.0",
+            "micromatch@4.0.8"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "braces",
+        "severity": "high",
+        "isDirect": false,
+        "via": [
+          {
+            "source": 1240992,
+            "name": "braces",
+            "dependency": "braces",
+            "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+            "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+            "severity": "high",
+            "cwe": [
+              "CWE-674"
+            ],
+            "cvss": {
+              "score": 7.5,
+              "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            },
+            "range": "<=3.0.3"
+          }
+        ],
+        "effects": [
+          "chokidar",
+          "micromatch"
+        ],
+        "range": "",
+        "nodes": [
+          "node_modules/braces"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "browserslist",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1153171,
+          "name": "browserslist",
+          "dependency": "browserslist",
+          "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+          "url": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx",
+          "severity": "high",
+          "cwe": [
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=4.28.6"
+        },
+        {
+          "source": 1153172,
+          "name": "browserslist",
+          "dependency": "browserslist",
+          "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+          "url": "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+          "severity": "high",
+          "cwe": [
+            "CWE-248",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=4.28.6"
+        },
+        "update-browserslist-db"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/browserslist",
+          "version": "4.25.1",
+          "chain": [
+            "component-forge",
+            "autoprefixer@10.4.21",
+            "browserslist@4.25.1"
+          ],
+          "direct_parents": [
+            "autoprefixer@10.4.21"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+        "https://github.com/advisories/GHSA-c83g-rgw3-j3cx"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "chokidar",
+      "severity": "high",
+      "via": [
+        "anymatch",
+        "braces",
+        "readdirp"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/chokidar",
+          "version": "3.6.0",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "chokidar@3.6.0"
+          ],
+          "direct_parents": [
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "chokidar",
+        "severity": "high",
+        "isDirect": false,
+        "via": [
+          "braces"
+        ],
+        "effects": [],
+        "range": "",
+        "nodes": [
+          "node_modules/chokidar"
+        ],
+        "fixAvailable": true
+      }
+    },
+    {
+      "name": "eslint",
+      "severity": "high",
+      "via": [
+        "@eslint-community/eslint-utils",
+        "@eslint/config-array",
+        "@eslint/eslintrc",
+        "@humanfs/node",
+        "ajv",
+        "file-entry-cache",
+        "minimatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/eslint",
+          "version": "9.31.0",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "eslint-config-prettier",
+      "severity": "high",
+      "via": [
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/eslint-config-prettier",
+          "version": "10.1.8",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-prettier@10.2.0",
+            "eslint-config-prettier@10.1.8"
+          ],
+          "direct_parents": [
+            "@vue/eslint-config-prettier@10.2.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "severity": "high",
+      "via": [
+        "eslint",
+        "eslint-config-prettier"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/eslint-plugin-prettier",
+          "version": "5.5.3",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-prettier@10.2.0",
+            "eslint-plugin-prettier@5.5.3"
+          ],
+          "direct_parents": [
+            "@vue/eslint-config-prettier@10.2.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "eslint-plugin-vue",
+      "severity": "high",
+      "via": [
+        "@eslint-community/eslint-utils",
+        "@typescript-eslint/parser",
+        "eslint",
+        "postcss-selector-parser",
+        "vue-eslint-parser"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/eslint-plugin-vue",
+          "version": "10.3.0",
+          "chain": [
+            "component-forge",
+            "eslint-plugin-vue@10.3.0"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "fast-glob",
+      "severity": "moderate",
+      "via": [
+        "micromatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/fast-glob",
+          "version": "3.3.3",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "fast-glob@3.3.3"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/typescript-estree@8.38.0",
+            "@vue/eslint-config-typescript@14.6.0",
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "fast-glob",
+        "severity": "high",
+        "isDirect": false,
+        "via": [
+          "micromatch"
+        ],
+        "effects": [
+          "@vue/eslint-config-typescript"
+        ],
+        "range": "",
+        "nodes": [
+          "node_modules/fast-glob"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "fdir",
+      "severity": "moderate",
+      "via": [
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/tinyglobby/node_modules/fdir",
+          "version": "6.4.6",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4",
+            "tinyglobby@0.2.14",
+            "fdir@6.4.6"
+          ],
+          "direct_parents": [
+            "tinyglobby@0.2.14"
+          ]
+        },
+        {
+          "path": "node_modules/vite/node_modules/fdir",
+          "version": "6.4.6",
+          "chain": [
+            "component-forge",
+            "vite@7.0.5",
+            "fdir@6.4.6"
+          ],
+          "direct_parents": [
+            "vite@7.0.5"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "fflate",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1164782,
+          "name": "fflate",
+          "dependency": "fflate",
+          "title": "fflate unzipSync can enter an infinite loop when parsing malformed ZIP64 archives",
+          "url": "https://github.com/advisories/GHSA-px8p-9vwx-vf98",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=0.8.0 <0.8.3"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/fflate",
+          "version": "0.8.2",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4",
+            "fflate@0.8.2"
+          ],
+          "direct_parents": [
+            "@vitest/ui@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-px8p-9vwx-vf98"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "file-entry-cache",
+      "severity": "high",
+      "via": [
+        "flat-cache"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/file-entry-cache",
+          "version": "8.0.0",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "file-entry-cache@8.0.0"
+          ],
+          "direct_parents": [
+            "eslint@9.31.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "flat-cache",
+      "severity": "high",
+      "via": [
+        "flatted"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/flat-cache",
+          "version": "4.0.1",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "file-entry-cache@8.0.0",
+            "flat-cache@4.0.1"
+          ],
+          "direct_parents": [
+            "file-entry-cache@8.0.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "flatted",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1114526,
+          "name": "flatted",
+          "dependency": "flatted",
+          "title": "flatted vulnerable to unbounded recursion DoS in parse() revive phase",
+          "url": "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+          "severity": "high",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<3.4.0"
+        },
+        {
+          "source": 1241196,
+          "name": "flatted",
+          "dependency": "flatted",
+          "title": "Prototype Pollution via parse() in NodeJS flatted",
+          "url": "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+          "severity": "high",
+          "cwe": [
+            "CWE-915",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=3.4.1"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/flatted",
+          "version": "3.3.3",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4",
+            "flatted@3.3.3"
+          ],
+          "direct_parents": [
+            "@vitest/ui@3.2.4",
+            "flat-cache@4.0.1"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "glob",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1109842,
+          "name": "glob",
+          "dependency": "glob",
+          "title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+          "url": "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+          "severity": "high",
+          "cwe": [
+            "CWE-78"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          "range": ">=10.2.0 <10.5.0"
+        },
+        "minimatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/glob",
+          "version": "10.4.5",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "sucrase@3.35.0",
+            "glob@10.4.5"
+          ],
+          "direct_parents": [
+            "sucrase@3.35.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "js-yaml",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1112715,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "js-yaml has prototype pollution in merge (<<)",
+          "url": "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": ">=4.0.0 <4.1.1"
+        },
+        {
+          "source": 1121860,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+          "url": "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=4.0.0 <=4.1.1"
+        },
+        {
+          "source": 1123911,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "js-yaml: YAML merge-key chains can force quadratic CPU consumption",
+          "url": "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=4.0.0 <4.3.0"
+        },
+        {
+          "source": 1138115,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) \u2014 CVE-2026-59870 fix not backported",
+          "url": "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+          "severity": "high",
+          "cwe": [
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=4.0.0 <4.3.1"
+        },
+        {
+          "source": 1193727,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+          "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=4.0.0 <4.3.2"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/js-yaml",
+          "version": "4.1.0",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/eslintrc@3.3.1",
+            "js-yaml@4.1.0"
+          ],
+          "direct_parents": [
+            "@eslint/eslintrc@3.3.1"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "micromatch",
+      "severity": "high",
+      "via": [
+        "braces",
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/micromatch",
+          "version": "4.0.8",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "micromatch@4.0.8"
+          ],
+          "direct_parents": [
+            "fast-glob@3.3.3",
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "micromatch",
+        "severity": "high",
+        "isDirect": false,
+        "via": [
+          "braces"
+        ],
+        "effects": [
+          "fast-glob"
+        ],
+        "range": "",
+        "nodes": [
+          "node_modules/micromatch"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "minimatch",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1113459,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+          "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<3.1.3"
+        },
+        {
+          "source": 1113465,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+          "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=9.0.0 <9.0.6"
+        },
+        {
+          "source": 1113538,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+          "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+          "severity": "high",
+          "cwe": [
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<3.1.3"
+        },
+        {
+          "source": 1113544,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+          "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+          "severity": "high",
+          "cwe": [
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=9.0.0 <9.0.7"
+        },
+        {
+          "source": 1113546,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+          "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<3.1.4"
+        },
+        {
+          "source": 1113552,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+          "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=9.0.0 <9.0.7"
+        },
+        "brace-expansion",
+        "brace-expansion"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@eslint/config-array/node_modules/minimatch",
+          "version": "3.1.2",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/config-array@0.21.0",
+            "minimatch@3.1.2"
+          ],
+          "direct_parents": [
+            "@eslint/config-array@0.21.0"
+          ]
+        },
+        {
+          "path": "node_modules/@eslint/eslintrc/node_modules/minimatch",
+          "version": "3.1.2",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "@eslint/eslintrc@3.3.1",
+            "minimatch@3.1.2"
+          ],
+          "direct_parents": [
+            "@eslint/eslintrc@3.3.1"
+          ]
+        },
+        {
+          "path": "node_modules/eslint/node_modules/minimatch",
+          "version": "3.1.2",
+          "chain": [
+            "component-forge",
+            "eslint@9.31.0",
+            "minimatch@3.1.2"
+          ],
+          "direct_parents": [
+            "eslint@9.31.0"
+          ]
+        },
+        {
+          "path": "node_modules/minimatch",
+          "version": "9.0.5",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "@typescript-eslint/utils@8.38.0",
+            "@typescript-eslint/typescript-estree@8.38.0",
+            "minimatch@9.0.5"
+          ],
+          "direct_parents": [
+            "@typescript-eslint/typescript-estree@8.38.0",
+            "glob@10.4.5"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "picomatch",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1115549,
+          "name": "picomatch",
+          "dependency": "picomatch",
+          "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+          "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": "<2.3.2"
+        },
+        {
+          "source": 1115551,
+          "name": "picomatch",
+          "dependency": "picomatch",
+          "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+          "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": ">=4.0.0 <4.0.4"
+        },
+        {
+          "source": 1115552,
+          "name": "picomatch",
+          "dependency": "picomatch",
+          "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+          "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<2.3.2"
+        },
+        {
+          "source": 1115554,
+          "name": "picomatch",
+          "dependency": "picomatch",
+          "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+          "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=4.0.0 <4.0.4"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/@vue/language-core/node_modules/picomatch",
+          "version": "4.0.3",
+          "chain": [
+            "component-forge",
+            "vue-tsc@3.0.3",
+            "@vue/language-core@3.0.3",
+            "picomatch@4.0.3"
+          ],
+          "direct_parents": [
+            "@vue/language-core@3.0.3"
+          ]
+        },
+        {
+          "path": "node_modules/picomatch",
+          "version": "2.3.1",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "micromatch@4.0.8",
+            "picomatch@2.3.1"
+          ],
+          "direct_parents": [
+            "anymatch@3.1.3",
+            "micromatch@4.0.8",
+            "readdirp@3.6.0"
+          ]
+        },
+        {
+          "path": "node_modules/tinyglobby/node_modules/picomatch",
+          "version": "4.0.3",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4",
+            "tinyglobby@0.2.14",
+            "picomatch@4.0.3"
+          ],
+          "direct_parents": [
+            "tinyglobby@0.2.14"
+          ]
+        },
+        {
+          "path": "node_modules/vite/node_modules/picomatch",
+          "version": "4.0.3",
+          "chain": [
+            "component-forge",
+            "vite@7.0.5",
+            "picomatch@4.0.3"
+          ],
+          "direct_parents": [
+            "vite@7.0.5"
+          ]
+        },
+        {
+          "path": "node_modules/vitest/node_modules/picomatch",
+          "version": "4.0.3",
+          "chain": [
+            "component-forge",
+            "vitest@3.2.4",
+            "picomatch@4.0.3"
+          ],
+          "direct_parents": [
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "postcss-load-config",
+      "severity": "moderate",
+      "via": [
+        "yaml"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/postcss-load-config",
+          "version": "4.0.2",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "postcss-load-config@4.0.2"
+          ],
+          "direct_parents": [
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "postcss-nested",
+      "severity": "low",
+      "via": [
+        "postcss-selector-parser"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/postcss-nested",
+          "version": "6.2.0",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "postcss-nested@6.2.0"
+          ],
+          "direct_parents": [
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf"
+      ],
+      "final_record": {
+        "name": "postcss-nested",
+        "severity": "moderate",
+        "isDirect": false,
+        "via": [
+          "postcss-selector-parser"
+        ],
+        "effects": [],
+        "range": "",
+        "nodes": [
+          "node_modules/postcss-nested"
+        ],
+        "fixAvailable": true
+      }
+    },
+    {
+      "name": "postcss-selector-parser",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1153170,
+          "name": "postcss-selector-parser",
+          "dependency": "postcss-selector-parser",
+          "title": "postcss-selector-parser allows denial of service through uncontrolled AST recursion",
+          "url": "https://github.com/advisories/GHSA-w9m9-85wc-3x92",
+          "severity": "low",
+          "cwe": [
+            "CWE-404"
+          ],
+          "cvss": {
+            "score": 4.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=6.1.0 <6.1.3"
+        },
+        {
+          "source": 1241232,
+          "name": "postcss-selector-parser",
+          "dependency": "postcss-selector-parser",
+          "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+          "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<7.1.6"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/eslint-plugin-vue/node_modules/postcss-selector-parser",
+          "version": "6.1.2",
+          "chain": [
+            "component-forge",
+            "eslint-plugin-vue@10.3.0",
+            "postcss-selector-parser@6.1.2"
+          ],
+          "direct_parents": [
+            "eslint-plugin-vue@10.3.0"
+          ]
+        },
+        {
+          "path": "node_modules/postcss-nested/node_modules/postcss-selector-parser",
+          "version": "6.1.2",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "postcss-nested@6.2.0",
+            "postcss-selector-parser@6.1.2"
+          ],
+          "direct_parents": [
+            "postcss-nested@6.2.0"
+          ]
+        },
+        {
+          "path": "node_modules/postcss-selector-parser",
+          "version": "6.0.10",
+          "chain": [
+            "component-forge",
+            "@tailwindcss/typography@0.5.16",
+            "postcss-selector-parser@6.0.10"
+          ],
+          "direct_parents": [
+            "@tailwindcss/typography@0.5.16"
+          ]
+        },
+        {
+          "path": "node_modules/tailwindcss/node_modules/postcss-selector-parser",
+          "version": "6.1.2",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "postcss-selector-parser@6.1.2"
+          ],
+          "direct_parents": [
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf"
+      ],
+      "final_record": {
+        "name": "postcss-selector-parser",
+        "severity": "moderate",
+        "isDirect": false,
+        "via": [
+          {
+            "source": 1241232,
+            "name": "postcss-selector-parser",
+            "dependency": "postcss-selector-parser",
+            "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+            "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+            "severity": "moderate",
+            "cwe": [
+              "CWE-400",
+              "CWE-407"
+            ],
+            "cvss": {
+              "score": 5.9,
+              "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            },
+            "range": "<7.1.6"
+          }
+        ],
+        "effects": [
+          "@tailwindcss/typography",
+          "postcss-nested",
+          "tailwindcss"
+        ],
+        "range": "",
+        "nodes": [
+          "node_modules/postcss-nested/node_modules/postcss-selector-parser",
+          "node_modules/postcss-selector-parser",
+          "node_modules/tailwindcss/node_modules/postcss-selector-parser"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "readdirp",
+      "severity": "moderate",
+      "via": [
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/readdirp",
+          "version": "3.6.0",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "chokidar@3.6.0",
+            "readdirp@3.6.0"
+          ],
+          "direct_parents": [
+            "chokidar@3.6.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "rollup",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1113515,
+          "name": "rollup",
+          "dependency": "rollup",
+          "title": "Rollup 4 has Arbitrary File Write via Path Traversal",
+          "url": "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+          "severity": "high",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=4.0.0 <4.59.0"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/rollup",
+          "version": "4.45.1",
+          "chain": [
+            "component-forge",
+            "vite@7.0.5",
+            "rollup@4.45.1"
+          ],
+          "direct_parents": [
+            "vite@7.0.5"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "sucrase",
+      "severity": "high",
+      "via": [
+        "glob"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/sucrase",
+          "version": "3.35.0",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "sucrase@3.35.0"
+          ],
+          "direct_parents": [
+            "tailwindcss@3.4.17"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "tailwindcss",
+      "severity": "high",
+      "via": [
+        "chokidar",
+        "fast-glob",
+        "micromatch",
+        "postcss-load-config",
+        "postcss-nested",
+        "postcss-selector-parser",
+        "sucrase"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/tailwindcss",
+          "version": "3.4.17",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": {
+        "name": "tailwindcss",
+        "severity": "high",
+        "isDirect": true,
+        "via": [
+          "chokidar",
+          "fast-glob",
+          "micromatch",
+          "postcss-nested",
+          "postcss-selector-parser"
+        ],
+        "effects": [],
+        "range": "",
+        "nodes": [
+          "node_modules/tailwindcss"
+        ],
+        "fixAvailable": false
+      }
+    },
+    {
+      "name": "tinyglobby",
+      "severity": "moderate",
+      "via": [
+        "fdir",
+        "picomatch"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/tinyglobby",
+          "version": "0.2.14",
+          "chain": [
+            "component-forge",
+            "@vitest/ui@3.2.4",
+            "tinyglobby@0.2.14"
+          ],
+          "direct_parents": [
+            "@vitest/ui@3.2.4",
+            "vite@7.0.5",
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "tinypool",
+      "severity": "critical",
+      "via": [
+        {
+          "source": 1241260,
+          "name": "tinypool",
+          "dependency": "tinypool",
+          "title": "Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution",
+          "url": "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+          "severity": "critical",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=2.1.0"
+        },
+        {
+          "source": 1241261,
+          "name": "tinypool",
+          "dependency": "tinypool",
+          "title": "Tinypool: Prototype Pollution Gadget to RCE in run() options",
+          "url": "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+          "severity": "critical",
+          "cwe": [
+            "CWE-94",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<2.1.2"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/tinypool",
+          "version": "1.1.1",
+          "chain": [
+            "component-forge",
+            "vitest@3.2.4",
+            "tinypool@1.1.1"
+          ],
+          "direct_parents": [
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+        "https://github.com/advisories/GHSA-85c8-ppgw-ccpr"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "typescript-eslint",
+      "severity": "high",
+      "via": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "@typescript-eslint/typescript-estree",
+        "@typescript-eslint/utils",
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/typescript-eslint",
+          "version": "8.38.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "typescript-eslint@8.38.0"
+          ],
+          "direct_parents": [
+            "@vue/eslint-config-typescript@14.6.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "remaining_advisories": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+      ],
+      "final_record": null
+    },
+    {
+      "name": "update-browserslist-db",
+      "severity": "high",
+      "via": [
+        "browserslist"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/update-browserslist-db",
+          "version": "1.1.3",
+          "chain": [
+            "component-forge",
+            "autoprefixer@10.4.21",
+            "browserslist@4.25.1",
+            "update-browserslist-db@1.1.3"
+          ],
+          "direct_parents": [
+            "browserslist@4.25.1"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+        "https://github.com/advisories/GHSA-c83g-rgw3-j3cx"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "vite",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1107325,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite middleware may serve files starting with the same name with the public directory",
+          "url": "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+          "severity": "low",
+          "cwe": [
+            "CWE-22",
+            "CWE-200",
+            "CWE-284"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.0.6"
+        },
+        {
+          "source": 1107329,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite's `server.fs` settings were not applied to HTML files",
+          "url": "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+          "severity": "low",
+          "cwe": [
+            "CWE-23",
+            "CWE-200",
+            "CWE-284"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.0.6"
+        },
+        {
+          "source": 1109136,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "vite allows server.fs.deny bypass via backslash on Windows",
+          "url": "https://github.com/advisories/GHSA-93m4-6634-74q7",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.0.7"
+        },
+        {
+          "source": 1116230,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+          "url": "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.3.1"
+        },
+        {
+          "source": 1116235,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket",
+          "url": "https://github.com/advisories/GHSA-p9ff-h696-f583",
+          "severity": "high",
+          "cwe": [
+            "CWE-200",
+            "CWE-306"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.3.1"
+        },
+        {
+          "source": 1120785,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+          "url": "https://github.com/advisories/GHSA-v6wh-96g9-6wx3",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-73",
+            "CWE-522"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=7.0.0 <=7.3.4"
+        },
+        {
+          "source": 1123526,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+          "url": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+          "severity": "high",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=7.0.0 <=7.3.4"
+        },
+        "fdir",
+        "picomatch",
+        "rollup",
+        "tinyglobby",
+        "yaml"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/vite",
+          "version": "7.0.5",
+          "chain": [
+            "component-forge",
+            "vite@7.0.5"
+          ],
+          "direct_parents": [
+            "component-forge",
+            "vite-node@3.2.4",
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "vite-node",
+      "severity": "low",
+      "via": [
+        "vite"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/vite-node",
+          "version": "3.2.4",
+          "chain": [
+            "component-forge",
+            "vitest@3.2.4",
+            "vite-node@3.2.4"
+          ],
+          "direct_parents": [
+            "vitest@3.2.4"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "vitest",
+      "severity": "critical",
+      "via": [
+        "@vitest/mocker",
+        "@vitest/ui",
+        {
+          "source": 1139528,
+          "name": "vitest",
+          "dependency": "vitest",
+          "title": "When Vitest UI server is listening, arbitrary file can be read and executed",
+          "url": "https://github.com/advisories/GHSA-5xrq-8626-4rwp",
+          "severity": "critical",
+          "cwe": [
+            "CWE-22",
+            "CWE-862"
+          ],
+          "cvss": {
+            "score": 9.8,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+          },
+          "range": "<3.2.6"
+        },
+        {
+          "source": 1193683,
+          "name": "vitest",
+          "dependency": "vitest",
+          "title": "Vitest: Path Traversal / Arbitrary File Read via @vitest/mocker Redirect Mock",
+          "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=2.1.0 <4.1.11"
+        },
+        "picomatch",
+        "tinyglobby",
+        "tinypool",
+        "vite",
+        "vite-node"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/vitest",
+          "version": "3.2.4",
+          "chain": [
+            "component-forge",
+            "vitest@3.2.4"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+        "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+        "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+        "https://github.com/advisories/GHSA-5xrq-8626-4rwp",
+        "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+        "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+        "https://github.com/advisories/GHSA-93m4-6634-74q7",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+        "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+        "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+        "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+        "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+        "https://github.com/advisories/GHSA-p9ff-h696-f583",
+        "https://github.com/advisories/GHSA-px8p-9vwx-vf98",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "vue-eslint-parser",
+      "severity": "high",
+      "via": [
+        "eslint"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/vue-eslint-parser",
+          "version": "10.2.0",
+          "chain": [
+            "component-forge",
+            "@vue/eslint-config-typescript@14.6.0",
+            "vue-eslint-parser@10.2.0"
+          ],
+          "direct_parents": [
+            "@vue/eslint-config-typescript@14.6.0"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+        "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+        "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+        "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+        "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+        "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+        "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+        "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+        "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+        "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+        "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+        "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "https://github.com/advisories/GHSA-p498-v437-472g",
+        "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+        "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "vue-tsc",
+      "severity": "moderate",
+      "via": [
+        "@vue/language-core"
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/vue-tsc",
+          "version": "3.0.3",
+          "chain": [
+            "component-forge",
+            "vue-tsc@3.0.3"
+          ],
+          "direct_parents": [
+            "component-forge"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+        "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    },
+    {
+      "name": "yaml",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1115556,
+          "name": "yaml",
+          "dependency": "yaml",
+          "title": "yaml is vulnerable to Stack Overflow via deeply nested YAML collections",
+          "url": "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 4.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.0.0 <2.8.3"
+        }
+      ],
+      "nodes": [
+        {
+          "path": "node_modules/yaml",
+          "version": "2.8.0",
+          "chain": [
+            "component-forge",
+            "tailwindcss@3.4.17",
+            "postcss-load-config@4.0.2",
+            "yaml@2.8.0"
+          ],
+          "direct_parents": [
+            "postcss-load-config@4.0.2"
+          ]
+        }
+      ],
+      "advisories": [
+        "https://github.com/advisories/GHSA-48c2-rrv3-qjmp"
+      ],
+      "remaining_advisories": [],
+      "final_record": null
+    }
+  ],
+  "baseline_counts": {
+    "info": 0,
+    "low": 3,
+    "moderate": 15,
+    "high": 34,
+    "critical": 3,
+    "total": 55
+  },
+  "final_counts": {
+    "info": 0,
+    "low": 0,
+    "moderate": 3,
+    "high": 6,
+    "critical": 0,
+    "total": 9
+  },
+  "chain_method": "One exact shortest root dependency chain per physical affected node, plus all direct-parent labels. Cyclic or duplicate ancestry is not exhaustively expanded. Every one of the 55 baseline package records is mapped to its advisory leaves."
+}

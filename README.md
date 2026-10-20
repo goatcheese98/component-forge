@@ -30,6 +30,8 @@ Cloud images with system Chromium can use `CHROMIUM_PATH=/usr/bin/chromium`. Bro
 
 For a future Cloudflare Pages setup, the verified static build command is `npm run build` and output directory is `dist-dev`. No server adapter, Workers runtime, credentials or production deployment is needed for this static slice, and none has been provisioned or invoked.
 
+The patched test UI defaults to loopback. `python tests/server-smoke.py` checks both dev/UI HTTP servers in cloud without opening a desktop browser. [Full tooling triage and unresolved compatibility blockers](docs/tooling-security-triage.md) record the full audit independently of the functional quality gate.
+
 See [design provenance](docs/design/button-lab.md) and [verification/limits](docs/verification.md).
 
 ## Importing configuration safely

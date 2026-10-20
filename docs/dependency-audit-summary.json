@@ -271,5 +271,7 @@
       "name": "yaml",
       "severity": "moderate"
     }
-  ]
+  ],
+  "checkpoint": "Intermediate Vue/public-boundary stage, before full tooling follow-up",
+  "current_tooling_report": "security/full-audit-final.json"
 }

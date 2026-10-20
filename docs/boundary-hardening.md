@@ -18,7 +18,7 @@ The [malformed-preset recovery capture](design/screens/malformed-preset-recovery
 
 ## Dependency audit
 
-`npm audit --omit=dev --json` returned 0 with zero findings before and after. That alone excluded Vue's development/peer copy and was insufficient evidence: the full audit was inspected too. Full findings changed from **67 (46 high / 3 critical)** to **55 (34 high / 3 critical)**. Vue/runtime/compiler/SSR, source-map-js, PostCSS and nanoid have no entries in the final full report. [Machine-readable before/after summary](dependency-audit-summary.json).
+`npm audit --omit=dev --json` returned 0 with zero findings before and after. That alone excluded Vue's development/peer copy and was insufficient evidence: the full audit was inspected too. At that intermediate Vue checkpoint, full findings changed from **67 (46 high / 3 critical)** to **55 (34 high / 3 critical)**. Vue/runtime/compiler/SSR, source-map-js, PostCSS and nanoid had no entries in that checkpoint's full report. The current authoritative full report is linked from the tooling triage. [Machine-readable before/after summary](dependency-audit-summary.json).
 
 Relevant advisory paths addressed:
 
@@ -26,6 +26,8 @@ Relevant advisory paths addressed:
 - Compiler source-map offset denial of service: [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q), patched source-map-js 1.2.2.
 - PostCSS previous-map file disclosure and nanoid generator issues are absent after the required compatible dependency refresh. No blanket audit fix, major framework replacement or unrelated tooling upgrade was used.
 
-Remaining findings concern development tooling (including Vite/Vitest UI, ESLint and Tailwind-related build packages), not code included in the static application or externalized Vue runtime entry points. They are **not declared resolved**. These packages can present risk when their servers or processors handle untrusted input; this slice uses trusted repository sources, non-watch tests and loopback browser previews. Broad remediation of all tooling findings remains separate debt; no checks were disabled. There are no known remaining high findings on the inspected shipped/runtime paths after this patch, not a guarantee that arbitrary downstream deployments are safe.
+Remaining findings concern development tooling (including Vite/Vitest UI, ESLint and Tailwind-related build packages), not code included in the static application or externalized Vue runtime entry points. They are **not declared resolved**. These packages can present risk when their servers or processors handle untrusted input; this slice uses trusted repository sources, non-watch tests and loopback browser previews. This was the intermediate 55-record baseline, not a harmless-tooling classification. The subsequent [advisory-by-advisory tooling triage](tooling-security-triage.md) patches reachable compatible paths and records every remaining blocker; no checks were disabled. There are no known remaining high findings on the inspected shipped/runtime paths after this patch, not a guarantee that arbitrary downstream deployments are safe.
 
 Exact serving model ID and reasoning setting are not exposed in this session. The session describes the assistant as Codex based on GPT-6; that is not an exact model/runtime identifier. No local desktop, paid infrastructure, credential provisioning, package publication, merge or production release was used.
+
+Final tooling follow-up: Vite 7.3.7 / Vitest 4.1.11 and compatible transitive repairs reduce the full audit to 9 records (6 high, 3 moderate, zero critical), representing two unresolved upstream/parent-major blockers. See the linked triage for all 41 advisory URLs and all 55 original affected package records.

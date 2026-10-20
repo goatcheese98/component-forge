@@ -157,7 +157,14 @@ export function parsePresets(raw: string): ComponentPreset[] {
         (record.label !== undefined && (typeof record.label !== 'string' || record.label.length > 80))) throw new Error('Invalid preset')
     seen.add(record.id)
   }
-  return value as ComponentPreset[]
+  // Unknown imported fields are not part of the preset contract. Normalize before
+  // the lab clones configs: deeply nested extra data must never reach stringify.
+  return value.map(item => {
+    const preset = item as ComponentPreset
+    const normalized: ComponentPreset = { id: preset.id, name: preset.name, description: preset.description, config: parseButtonState(preset.config) }
+    if (preset.label !== undefined) normalized.label = preset.label
+    return normalized
+  })
 }
 export function initialButtonState(partial?: Partial<ButtonTestState>): ButtonTestState {
   const merged = { ...cloneState(defaultButtonState), ...partial }

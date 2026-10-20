@@ -2,6 +2,8 @@
 
 Baseline: 55 affected package records, covering 41 distinct advisory URLs. Final: **9 affected records: 6 high, 3 moderate, 0 critical**. These are **two unresolved advisories**, not nine independent exploits. All 55 original package records, exact installed nodes/chains, propagation to leaf advisories and final status are retained in [tooling-triage.json](security/tooling-triage.json). [Original full audit](security/full-audit-baseline.json) · [Final full audit](security/full-audit-final.json).
 
+The final imported-data normalization follow-up retains these audit results and passes 22 unit cases, eight browser groups, packed/SSR consumers and both server probes.
+
 ## Execution and repairs
 
 Normal builds, lint and test workers are treated as potential execution paths. Development-only classification is not a security exemption. The Vite and Vitest UI server paths are especially reachable when the advertised servers run. Windows-specific conditions and vulnerable optional operations are distinguished below.

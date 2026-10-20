@@ -139,6 +139,24 @@ class BrowserChecks(unittest.TestCase):
         expect(page.get_by_label('Generated code')).not_to_contain_text('#12345')
         page.screenshot(path=str(ARTIFACTS / 'malformed-preset-recovery.png'), full_page=True)
 
+    def test_nested_unknown_preset_data_is_normalized_before_load(self):
+        page = self.page
+        page.get_by_role('button', name='Save preset', exact=True).click()
+        page.get_by_label('Preset name').fill('Nested import')
+        page.get_by_role('button', name='Save', exact=True).click()
+        raw = page.evaluate("""() => {
+            const preset = JSON.parse(localStorage.getItem('button-presets'))[0];
+            const config = JSON.stringify(preset.config).slice(0,-1) + ',"extra":' + '['.repeat(10000) + '0' + ']'.repeat(10000) + '}';
+            const text = '[{"id":"custom-depth","name":"Nested import","description":"Test","label":"Imported label","config":' + config + '}]';
+            localStorage.setItem('button-presets', text);
+            return text;
+        }""")
+        page.reload()
+        page.get_by_role('button', name='Nested import', exact=True).click()
+        expect(page.locator('.custom-button')).to_have_text('Imported label')
+        expect(page.get_by_label('Generated code')).not_to_contain_text('extra')
+        self.assertEqual(page.evaluate("localStorage.getItem('button-presets')"), raw)
+
     def test_native_clipboard(self):
         self.context.grant_permissions(['clipboard-read', 'clipboard-write'], origin='http://127.0.0.1:5175')
         self.page.get_by_role('button', name='Copy CSS', exact=True).click()

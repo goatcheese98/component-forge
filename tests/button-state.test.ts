@@ -122,3 +122,11 @@ it('requires own configuration fields and ignores custom serialization methods a
   expect(toJSON).not.toHaveBeenCalled()
   expect(generateCSSCode(input)).toContain('background: var(--acc)')
 })
+
+it('normalizes imported preset configs before cloning or exporting unknown nested data', () => {
+  const config = JSON.stringify(defaultButtonState).slice(0, -1) + ',"extra":' + '['.repeat(10000) + '0' + ']'.repeat(10000) + '}'
+  const raw = '[{"id":"custom-depth","name":"Depth","description":"Test","config":' + config + '}]'
+  const imported = parsePresets(raw)
+  expect(() => cloneState(imported[0]!.config)).not.toThrow()
+  expect(imported[0]!.config).toEqual(defaultButtonState)
+})
